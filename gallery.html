@@ -1,2026 +1,2399 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Gallery | SkyShotConner</title>
-
-    <meta
-        name="description"
-        content="SkyShotConner Aviation Photography Gallery — aircraft, aviation and aerial photography from South Africa."
-    >
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-
-        /* =========================================================
-           SKYSHOTCONNER GALLERY
-           ========================================================= */
-
-        :root {
-            --background: #070a0f;
-            --surface: #0d1219;
-            --surface-light: #111923;
-            --text: #f4f7fa;
-            --muted: #98a4b2;
-            --line: rgba(255,255,255,0.10);
-            --blue: #55b8ff;
-            --blue-dark: #07131e;
-            --max-width: 1180px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            background: var(--background);
-            color: var(--text);
-            font-family: "Inter", Arial, sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        button,
-        input {
-            font: inherit;
-        }
-
-        img {
-            width: 100%;
-            height: 100%;
-            display: block;
-            object-fit: cover;
-        }
-
-        .container {
-            width: min(calc(100% - 40px), var(--max-width));
-            margin: auto;
-        }
-
-
-        /* =========================================================
-           HEADER
-           ========================================================= */
-
-        .site-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 1000;
-
-            background: rgba(7, 10, 15, 0.78);
-            backdrop-filter: blur(18px);
-
-            border-bottom: 1px solid var(--line);
-
-            transition: 0.3s ease;
-        }
-
-        .site-header.scrolled {
-            background: rgba(7, 10, 15, 0.97);
-        }
-
-        .nav {
-            min-height: 78px;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+<title>Aircraft Gallery | SkyShotConner</title>
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+<meta name="description"
+content="SkyShotConner Aviation Photography — aircraft photographs, registrations and aviation information.">
 
-            font-family: "Montserrat", sans-serif;
-            font-size: 15px;
-            font-weight: 900;
-            letter-spacing: 1px;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        .brand span span {
-            color: var(--blue);
-        }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
 
-        .brand-mark {
-            width: 34px;
-            height: 34px;
+<style>
 
-            display: grid;
-            place-items: center;
+/* =========================================================
+   ROOT
+========================================================= */
 
-            border: 1px solid rgba(85,184,255,0.5);
-            border-radius: 50%;
+:root {
+    --background: #070a0f;
+    --surface: #0d1219;
+    --surface-2: #111923;
+    --border: rgba(255,255,255,0.10);
 
-            color: var(--blue);
-            font-size: 17px;
-        }
+    --text: #f5f7fa;
+    --muted: #91a0ae;
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
+    --blue: #55b8ff;
+    --blue-dark: #081722;
 
-            font-size: 11px;
-            font-weight: 700;
+    --green: #63d391;
 
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
+    --max-width: 1200px;
+}
 
-        .nav-links a {
-            color: #cbd4dd;
-            transition: 0.2s ease;
-        }
 
-        .nav-links a:hover {
-            color: white;
-        }
+/* =========================================================
+   RESET
+========================================================= */
 
-        .nav-links .active {
-            color: var(--blue);
-        }
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        .nav-cta {
-            padding: 10px 16px;
-            border: 1px solid rgba(85,184,255,0.5);
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        .nav-toggle {
-            display: none;
+body {
+    background: var(--background);
+    color: var(--text);
 
-            width: 42px;
-            height: 42px;
+    font-family: "Inter", Arial, sans-serif;
 
-            background: transparent;
-            border: 1px solid var(--line);
+    line-height: 1.6;
+}
 
-            cursor: pointer;
-        }
+img {
+    width: 100%;
+    height: 100%;
 
-        .nav-toggle span {
-            display: block;
+    display: block;
 
-            width: 20px;
-            height: 2px;
+    object-fit: cover;
+}
 
-            margin: 4px auto;
+button,
+input {
+    font: inherit;
+}
 
-            background: white;
-        }
+button {
+    cursor: pointer;
+}
 
+a {
+    color: inherit;
+    text-decoration: none;
+}
 
-        /* =========================================================
-           PAGE HERO
-           ========================================================= */
+.container {
+    width: min(calc(100% - 36px), var(--max-width));
+    margin: auto;
+}
 
-        .gallery-hero {
-            position: relative;
 
-            min-height: 470px;
+/* =========================================================
+   HEADER
+========================================================= */
 
-            display: flex;
-            align-items: center;
+header {
+    position: fixed;
 
-            overflow: hidden;
+    top: 0;
+    left: 0;
 
-            border-bottom: 1px solid var(--line);
-        }
+    width: 100%;
 
-        .gallery-hero-background {
-            position: absolute;
-            inset: 0;
+    z-index: 1000;
 
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(3,7,11,0.95),
-                    rgba(3,7,11,0.70),
-                    rgba(3,7,11,0.45)
-                ),
-                url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2200&q=90")
-                center / cover no-repeat;
-        }
+    background: rgba(7,10,15,0.88);
 
-        .gallery-hero-content {
-            position: relative;
-            z-index: 2;
+    backdrop-filter: blur(18px);
 
-            padding-top: 80px;
-        }
+    border-bottom: 1px solid var(--border);
+}
 
-        .eyebrow {
-            margin-bottom: 15px;
+.nav {
+    min-height: 76px;
 
-            color: var(--blue);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
-            font-size: 10px;
-            font-weight: 800;
+.logo {
+    display: flex;
+    align-items: center;
 
-            letter-spacing: 2.5px;
-        }
+    gap: 10px;
 
-        .gallery-hero h1 {
-            font-family: "Montserrat", sans-serif;
+    font-family: "Montserrat", sans-serif;
 
-            font-size: clamp(55px, 8vw, 105px);
+    font-size: 14px;
+    font-weight: 900;
 
-            line-height: 0.95;
+    letter-spacing: 1px;
+}
 
-            letter-spacing: -4px;
+.logo-mark {
+    width: 34px;
+    height: 34px;
 
-            text-transform: uppercase;
-        }
+    display: grid;
+    place-items: center;
 
-        .gallery-hero h1 span {
-            color: var(--blue);
-        }
+    border: 1px solid rgba(85,184,255,.5);
 
-        .hero-description {
-            max-width: 550px;
+    border-radius: 50%;
 
-            margin-top: 25px;
+    color: var(--blue);
+}
 
-            color: #c4ccd5;
+.logo span span {
+    color: var(--blue);
+}
 
-            font-size: 15px;
-        }
+.nav-links {
+    display: flex;
+    align-items: center;
 
+    gap: 26px;
 
-        /* =========================================================
-           GALLERY SECTION
-           ========================================================= */
+    font-size: 11px;
+    font-weight: 700;
 
-        .gallery-section {
-            padding: 90px 0 120px;
-        }
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
 
-        .gallery-heading {
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
+.nav-links a {
+    color: #c5cdd6;
 
-            gap: 40px;
+    transition: .2s;
+}
 
-            margin-bottom: 35px;
-        }
+.nav-links a:hover,
+.nav-links .active {
+    color: var(--blue);
+}
 
-        .gallery-heading h2 {
-            font-family: "Montserrat", sans-serif;
+.nav-contact {
+    padding: 9px 14px;
 
-            font-size: clamp(40px, 5vw, 65px);
+    border: 1px solid rgba(85,184,255,.4);
+}
 
-            line-height: 1;
+.menu {
+    display: none;
 
-            letter-spacing: -3px;
+    width: 42px;
+    height: 42px;
 
-            text-transform: uppercase;
-        }
+    background: transparent;
 
-        .gallery-heading h2 span {
-            color: var(--blue);
-        }
+    border: 1px solid var(--border);
+}
 
-        .gallery-heading-text {
-            max-width: 400px;
+.menu span {
+    display: block;
 
-            color: var(--muted);
+    width: 20px;
+    height: 2px;
 
-            font-size: 13px;
-        }
+    margin: 4px auto;
 
+    background: white;
+}
 
-        /* =========================================================
-           FILTERS
-           ========================================================= */
 
-        .filters {
-            display: flex;
-            flex-wrap: wrap;
+/* =========================================================
+   HERO
+========================================================= */
 
-            gap: 8px;
+.hero {
+    position: relative;
 
-            margin-bottom: 30px;
-        }
+    min-height: 470px;
 
-        .filter-button {
-            padding: 10px 15px;
+    display: flex;
+    align-items: center;
 
-            background: transparent;
+    overflow: hidden;
+}
 
-            border: 1px solid var(--line);
+.hero-bg {
+    position: absolute;
 
-            color: #aab5c0;
+    inset: 0;
 
-            font-size: 10px;
-            font-weight: 700;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(4,7,11,.96),
+            rgba(4,7,11,.72),
+            rgba(4,7,11,.45)
+        ),
+        url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=2200&q=90")
+        center/cover no-repeat;
+}
 
-            text-transform: uppercase;
-            letter-spacing: 1px;
+.hero-content {
+    position: relative;
 
-            cursor: pointer;
+    z-index: 2;
 
-            transition: 0.2s ease;
-        }
+    padding-top: 70px;
+}
 
-        .filter-button:hover,
-        .filter-button.active {
-            background: var(--blue);
+.eyebrow {
+    color: var(--blue);
 
-            border-color: var(--blue);
+    font-size: 10px;
+    font-weight: 800;
 
-            color: #06111b;
-        }
+    letter-spacing: 2px;
 
+    text-transform: uppercase;
+}
 
-        /* =========================================================
-           SEARCH
-           ========================================================= */
+.hero h1 {
+    margin-top: 12px;
 
-        .gallery-tools {
-            display: flex;
-            gap: 10px;
+    font-family: "Montserrat", sans-serif;
 
-            margin-bottom: 25px;
-        }
+    font-size: clamp(52px,8vw,95px);
 
-        .search-box {
-            width: 100%;
+    line-height: .95;
 
-            display: flex;
-            align-items: center;
+    letter-spacing: -4px;
 
-            padding: 0 16px;
+    text-transform: uppercase;
+}
 
-            background: var(--surface);
+.hero h1 span {
+    color: var(--blue);
+}
 
-            border: 1px solid var(--line);
-        }
+.hero p {
+    max-width: 560px;
 
-        .search-icon {
-            color: var(--blue);
+    margin-top: 22px;
 
-            font-size: 22px;
+    color: #c0c9d2;
 
-            margin-right: 8px;
-        }
+    font-size: 14px;
+}
 
-        .search-box input {
-            width: 100%;
 
-            padding: 15px 5px;
+/* =========================================================
+   MAIN
+========================================================= */
 
-            border: 0;
-            outline: none;
+.gallery-section {
+    padding: 80px 0 110px;
+}
 
-            background: transparent;
+.section-title {
+    margin-bottom: 30px;
+}
 
-            color: white;
+.section-title h2 {
+    margin-top: 7px;
 
-            font-size: 13px;
-        }
+    font-family: "Montserrat", sans-serif;
 
-        .search-box input::placeholder {
-            color: #66727e;
-        }
+    font-size: clamp(38px,5vw,60px);
 
+    line-height: 1;
 
-        /* =========================================================
-           GALLERY GRID
-           ========================================================= */
+    letter-spacing: -3px;
 
-        .gallery-grid {
-            display: grid;
+    text-transform: uppercase;
+}
 
-            grid-template-columns: repeat(3, 1fr);
+.section-title h2 span {
+    color: var(--blue);
+}
 
-            grid-auto-rows: 280px;
 
-            gap: 10px;
-        }
+/* =========================================================
+   SEARCH
+========================================================= */
 
-        .gallery-card {
-            position: relative;
+.search {
+    display: flex;
 
-            overflow: hidden;
+    align-items: center;
 
-            background: #111;
+    gap: 12px;
 
-            cursor: pointer;
-        }
+    margin-bottom: 18px;
 
-        .gallery-card.wide {
-            grid-column: span 2;
-        }
+    padding: 0 17px;
 
-        .gallery-card.tall {
-            grid-row: span 2;
-        }
+    background: var(--surface);
 
-        .gallery-card img {
-            transition:
-                transform 0.7s ease,
-                filter 0.4s ease;
-        }
+    border: 1px solid var(--border);
+}
 
-        .gallery-card:hover img {
-            transform: scale(1.06);
-        }
+.search-icon {
+    color: var(--blue);
 
-        .gallery-card::after {
-            content: "";
+    font-size: 22px;
+}
 
-            position: absolute;
+.search input {
+    width: 100%;
 
-            inset: 25% 0 0;
+    padding: 17px 0;
 
-            background:
-                linear-gradient(
-                    transparent,
-                    rgba(0,0,0,0.92)
-                );
+    background: transparent;
 
-            pointer-events: none;
-        }
+    border: 0;
 
-        .gallery-info {
-            position: absolute;
+    outline: 0;
 
-            left: 22px;
-            right: 20px;
-            bottom: 20px;
+    color: white;
 
-            z-index: 3;
-        }
+    font-size: 13px;
+}
 
-        .gallery-category {
-            color: var(--blue);
+.search input::placeholder {
+    color: #66727e;
+}
 
-            font-size: 9px;
-            font-weight: 800;
 
-            letter-spacing: 1.7px;
+/* =========================================================
+   FILTERS
+========================================================= */
 
-            text-transform: uppercase;
-        }
+.filters {
+    display: flex;
 
-        .gallery-info h3 {
-            margin: 4px 0;
+    gap: 8px;
 
-            font-family: "Montserrat", sans-serif;
+    margin-bottom: 35px;
 
-            font-size: 20px;
+    overflow-x: auto;
 
-            line-height: 1.1;
+    scrollbar-width: none;
+}
 
-            text-transform: uppercase;
-        }
+.filters::-webkit-scrollbar {
+    display: none;
+}
 
-        .gallery-info p {
-            color: #c3ccd5;
+.filter {
+    flex: 0 0 auto;
 
-            font-size: 11px;
-        }
+    padding: 10px 15px;
 
-        .view-icon {
-            position: absolute;
+    background: transparent;
 
-            top: 18px;
-            right: 18px;
+    border: 1px solid var(--border);
 
-            z-index: 3;
+    color: #9da9b5;
 
-            width: 38px;
-            height: 38px;
+    font-size: 9px;
+    font-weight: 800;
 
-            display: grid;
-            place-items: center;
+    letter-spacing: 1px;
 
-            border: 1px solid rgba(255,255,255,0.35);
+    text-transform: uppercase;
 
-            background: rgba(0,0,0,0.25);
+    transition: .2s;
+}
 
-            color: white;
+.filter:hover,
+.filter.active {
+    background: var(--blue);
 
-            font-size: 17px;
+    border-color: var(--blue);
 
-            opacity: 0;
+    color: #06111a;
+}
 
-            transform: translateY(-5px);
 
-            transition: 0.3s ease;
-        }
+/* =========================================================
+   AIRCRAFT GRID
+========================================================= */
 
-        .gallery-card:hover .view-icon {
-            opacity: 1;
-            transform: translateY(0);
-        }
+.aircraft-grid {
+    display: grid;
 
-        .hidden {
-            display: none !important;
-        }
+    grid-template-columns: repeat(3,1fr);
 
+    gap: 14px;
+}
 
-        /* =========================================================
-           LIGHTBOX
-           ========================================================= */
+.aircraft-card {
+    overflow: hidden;
 
-        .lightbox {
-            position: fixed;
+    background: var(--surface);
 
-            inset: 0;
+    border: 1px solid var(--border);
 
-            z-index: 2000;
+    cursor: pointer;
 
-            display: none;
+    transition: .3s;
+}
 
-            align-items: center;
-            justify-content: center;
+.aircraft-card:hover {
+    border-color: rgba(85,184,255,.45);
 
-            padding: 25px;
+    transform: translateY(-3px);
+}
 
-            background: rgba(0,0,0,0.94);
-        }
+.aircraft-photo {
+    position: relative;
 
-        .lightbox.open {
-            display: flex;
-        }
+    height: 235px;
 
-        .lightbox-image {
-            max-width: min(1100px, 95vw);
-            max-height: 82vh;
+    overflow: hidden;
+}
 
-            object-fit: contain;
+.aircraft-photo img {
+    transition: .5s;
+}
 
-            box-shadow: 0 20px 80px rgba(0,0,0,0.6);
-        }
+.aircraft-card:hover .aircraft-photo img {
+    transform: scale(1.05);
+}
 
-        .lightbox-close {
-            position: absolute;
+.photo-count {
+    position: absolute;
 
-            top: 20px;
-            right: 25px;
+    top: 12px;
+    right: 12px;
 
-            width: 45px;
-            height: 45px;
+    padding: 6px 9px;
 
-            background: rgba(255,255,255,0.08);
+    background: rgba(0,0,0,.7);
 
-            border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,.15);
 
-            color: white;
+    font-size: 9px;
+    font-weight: 700;
+}
 
-            font-size: 24px;
+.aircraft-body {
+    padding: 19px;
+}
 
-            cursor: pointer;
-        }
+.aircraft-registration {
+    color: var(--blue);
 
-        .lightbox-details {
-            position: absolute;
+    font-family: "Montserrat", sans-serif;
 
-            left: 30px;
-            bottom: 25px;
+    font-size: 19px;
+    font-weight: 900;
+}
 
-            color: white;
-        }
+.aircraft-type {
+    margin-top: 2px;
 
-        .lightbox-details small {
-            color: var(--blue);
+    color: white;
 
-            font-size: 9px;
-            font-weight: 800;
+    font-size: 12px;
+    font-weight: 700;
+}
 
-            letter-spacing: 1.5px;
-        }
+.aircraft-operator {
+    margin-top: 4px;
 
-        .lightbox-details h3 {
-            margin-top: 3px;
+    color: var(--muted);
 
-            font-family: "Montserrat", sans-serif;
+    font-size: 11px;
+}
 
-            font-size: 22px;
+.aircraft-meta {
+    display: flex;
 
-            text-transform: uppercase;
-        }
+    justify-content: space-between;
 
+    gap: 10px;
 
-        /* =========================================================
-           SOCIAL SECTION
-           ========================================================= */
+    margin-top: 15px;
 
-        .social-section {
-            padding: 90px 0;
+    padding-top: 13px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #0b1621,
-                    #071018
-                );
+    border-top: 1px solid var(--border);
 
-            border-top: 1px solid var(--line);
-            border-bottom: 1px solid var(--line);
+    color: #798693;
 
-            text-align: center;
-        }
+    font-size: 9px;
 
-        .social-section h2 {
-            font-family: "Montserrat", sans-serif;
+    text-transform: uppercase;
 
-            font-size: clamp(38px, 6vw, 65px);
+    letter-spacing: .7px;
+}
 
-            line-height: 1;
 
-            text-transform: uppercase;
-        }
+/* =========================================================
+   NO RESULTS
+========================================================= */
 
-        .social-section h2 span {
-            color: var(--blue);
-        }
+.no-results {
+    display: none;
 
-        .social-section p {
-            max-width: 550px;
+    padding: 60px 20px;
 
-            margin: 20px auto 30px;
+    text-align: center;
 
-            color: #8996a2;
+    color: var(--muted);
 
-            font-size: 13px;
-        }
+    font-size: 13px;
+}
 
-        .social-buttons {
-            display: flex;
 
-            justify-content: center;
-            flex-wrap: wrap;
+/* =========================================================
+   AIRCRAFT DETAIL
+========================================================= */
 
-            gap: 10px;
-        }
+.aircraft-detail {
+    display: none;
 
-        .social-button {
-            min-width: 145px;
+    padding: 70px 0 100px;
+}
 
-            padding: 13px 18px;
+.aircraft-detail.active {
+    display: block;
+}
 
-            border: 1px solid var(--line);
+.back-button {
+    display: inline-flex;
 
-            font-size: 10px;
-            font-weight: 800;
+    align-items: center;
 
-            text-transform: uppercase;
+    gap: 8px;
 
-            letter-spacing: 1px;
+    margin-bottom: 30px;
 
-            transition: 0.25s ease;
-        }
+    padding: 10px 14px;
 
-        .social-button:hover {
-            background: var(--blue);
+    background: transparent;
 
-            border-color: var(--blue);
+    border: 1px solid var(--border);
 
-            color: #06111b;
+    color: #aeb9c4;
 
-            transform: translateY(-2px);
-        }
+    font-size: 10px;
+    font-weight: 800;
 
+    text-transform: uppercase;
 
-        /* =========================================================
-           FOOTER
-           ========================================================= */
+    letter-spacing: 1px;
+}
 
-        footer {
-            padding: 30px 0;
+.back-button:hover {
+    border-color: var(--blue);
 
-            background: #05070a;
-        }
+    color: var(--blue);
+}
 
-        .footer-inner {
-            display: flex;
+.detail-header {
+    display: grid;
 
-            align-items: center;
-            justify-content: space-between;
+    grid-template-columns: 1.5fr 1fr;
 
-            gap: 20px;
-        }
+    gap: 35px;
 
-        .footer-inner p {
-            color: #697580;
+    margin-bottom: 45px;
+}
 
-            font-size: 10px;
+.detail-image {
+    height: 500px;
 
-            text-align: center;
-        }
+    overflow: hidden;
 
-        .back-top {
-            color: #89949f;
+    background: #111;
+}
 
-            font-size: 10px;
-            font-weight: 700;
+.detail-info {
+    display: flex;
 
-            text-transform: uppercase;
+    flex-direction: column;
 
-            letter-spacing: 1.3px;
-        }
+    justify-content: center;
+}
 
-        .back-top:hover {
-            color: var(--blue);
-        }
+.detail-label {
+    color: var(--blue);
 
+    font-size: 10px;
+    font-weight: 800;
 
-        /* =========================================================
-           TABLET
-           ========================================================= */
+    letter-spacing: 2px;
+}
 
-        @media (max-width: 900px) {
+.detail-registration {
+    margin-top: 7px;
 
-            .container {
-                width: min(calc(100% - 32px), var(--max-width));
-            }
+    font-family: "Montserrat", sans-serif;
 
-            .nav-links {
-                display: none;
+    font-size: clamp(45px,6vw,78px);
 
-                position: absolute;
+    line-height: .95;
 
-                top: 78px;
-                left: 0;
+    letter-spacing: -3px;
+}
 
-                width: 100%;
+.detail-type {
+    margin-top: 10px;
 
-                padding: 15px;
+    font-size: 20px;
+    font-weight: 700;
+}
 
-                flex-direction: column;
-                align-items: stretch;
+.detail-operator {
+    margin-top: 4px;
 
-                gap: 0;
+    color: var(--muted);
 
-                background: rgba(7,10,15,0.98);
+    font-size: 14px;
+}
 
-                border-bottom: 1px solid var(--line);
-            }
+.detail-description {
+    margin-top: 25px;
 
-            .nav-links.open {
-                display: flex;
-            }
+    color: #aab5bf;
 
-            .nav-links a {
-                padding: 15px;
+    font-size: 13px;
 
-                border-bottom: 1px solid rgba(255,255,255,0.05);
-            }
+    line-height: 1.8;
+}
 
-            .nav-cta {
-                margin-top: 8px;
+.detail-stats {
+    display: grid;
 
-                text-align: center;
-            }
+    grid-template-columns: repeat(2,1fr);
 
-            .nav-toggle {
-                display: block;
-            }
+    gap: 1px;
 
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+    margin-top: 28px;
 
-            .gallery-card.wide {
-                grid-column: span 2;
-            }
+    background: var(--border);
 
-            .gallery-heading {
-                display: block;
-            }
+    border: 1px solid var(--border);
+}
 
-            .gallery-heading-text {
-                margin-top: 18px;
-            }
-        }
+.stat {
+    padding: 13px;
 
+    background: var(--surface);
+}
 
-        /* =========================================================
-           MOBILE
-           ========================================================= */
+.stat-label {
+    color: #66737f;
 
-        @media (max-width: 600px) {
+    font-size: 8px;
+    font-weight: 800;
 
-            .container {
-                width: calc(100% - 28px);
-            }
+    letter-spacing: 1px;
 
-            .nav {
-                min-height: 70px;
-            }
+    text-transform: uppercase;
+}
 
-            .brand {
-                font-size: 13px;
-            }
+.stat-value {
+    margin-top: 3px;
 
-            .brand-mark {
-                width: 30px;
-                height: 30px;
-            }
+    color: #edf2f6;
 
-            .nav-links {
-                top: 70px;
-            }
+    font-size: 11px;
+    font-weight: 600;
+}
 
-            .gallery-hero {
-                min-height: 520px;
-            }
 
-            .gallery-hero-content {
-                padding-top: 100px;
-            }
+/* =========================================================
+   NOTES
+========================================================= */
 
-            .gallery-hero-background {
-                background:
-                    linear-gradient(
-                        180deg,
-                        rgba(3,7,11,0.55),
-                        rgba(3,7,11,0.78),
-                        rgba(3,7,11,0.96)
-                    ),
-                    url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1600&q=85")
-                    center / cover no-repeat;
-            }
+.info-section {
+    margin-top: 35px;
 
-            .gallery-hero h1 {
-                font-size: clamp(50px, 15vw, 75px);
+    padding: 30px;
 
-                letter-spacing: -3px;
-            }
+    background: var(--surface);
 
-            .hero-description {
-                font-size: 13px;
-            }
+    border: 1px solid var(--border);
+}
 
-            .gallery-section {
-                padding: 65px 0 80px;
-            }
+.info-section h3 {
+    font-family: "Montserrat", sans-serif;
 
-            .gallery-heading h2 {
-                font-size: 40px;
+    font-size: 21px;
 
-                letter-spacing: -2px;
-            }
+    text-transform: uppercase;
+}
 
-            .filters {
-                flex-wrap: nowrap;
+.info-section h3 span {
+    color: var(--blue);
+}
 
-                overflow-x: auto;
+.info-section p {
+    margin-top: 12px;
 
-                padding-bottom: 8px;
+    color: #9da9b5;
 
-                scrollbar-width: none;
-            }
+    font-size: 13px;
 
-            .filters::-webkit-scrollbar {
-                display: none;
-            }
+    line-height: 1.8;
+}
 
-            .filter-button {
-                flex: 0 0 auto;
-            }
 
-            .gallery-grid {
-                display: block;
-            }
+/* =========================================================
+   OTHER PHOTOS
+========================================================= */
 
-            .gallery-card,
-            .gallery-card.wide,
-            .gallery-card.tall {
-                width: 100%;
+.other-photos {
+    margin-top: 55px;
+}
 
-                height: 310px;
+.other-photos h2 {
+    margin-bottom: 22px;
 
-                margin-bottom: 10px;
-            }
+    font-family: "Montserrat", sans-serif;
 
-            .gallery-card.tall {
-                height: 400px;
-            }
+    font-size: 30px;
 
-            .view-icon {
-                opacity: 1;
+    text-transform: uppercase;
+}
 
-                transform: none;
-            }
+.other-photos h2 span {
+    color: var(--blue);
+}
 
-            .gallery-info {
-                left: 17px;
-                right: 15px;
-                bottom: 17px;
-            }
+.photo-strip {
+    display: grid;
 
-            .gallery-info h3 {
-                font-size: 19px;
-            }
+    grid-template-columns: repeat(3,1fr);
 
-            .social-section {
-                padding: 70px 0;
-            }
+    gap: 10px;
+}
 
-            .social-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
+.photo-strip-item {
+    height: 230px;
 
-            .social-button {
-                width: 100%;
-            }
+    overflow: hidden;
 
-            .lightbox {
-                padding: 15px;
-            }
+    cursor: pointer;
+}
 
-            .lightbox-image {
-                max-width: 96vw;
-                max-height: 70vh;
-            }
+.photo-strip-item img {
+    transition: .4s;
+}
 
-            .lightbox-details {
-                left: 18px;
-                bottom: 18px;
-            }
+.photo-strip-item:hover img {
+    transform: scale(1.05);
+}
 
-            .lightbox-details h3 {
-                font-size: 18px;
-            }
 
-            .footer-inner {
-                flex-direction: column;
+/* =========================================================
+   LIKES
+========================================================= */
 
-                text-align: center;
-            }
-        }
+.like-button {
+    display: inline-flex;
 
-    </style>
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 20px;
+
+    padding: 10px 14px;
+
+    background: transparent;
+
+    border: 1px solid var(--border);
+
+    color: #aab5bf;
+
+    font-size: 11px;
+
+    transition: .2s;
+}
+
+.like-button:hover,
+.like-button.liked {
+    border-color: #ff6380;
+
+    color: #ff6380;
+}
+
+
+/* =========================================================
+   SOCIAL
+========================================================= */
+
+.social-section {
+    padding: 85px 0;
+
+    background: linear-gradient(
+        135deg,
+        #0b1621,
+        #071018
+    );
+
+    border-top: 1px solid var(--border);
+
+    text-align: center;
+}
+
+.social-section h2 {
+    margin-top: 8px;
+
+    font-family: "Montserrat", sans-serif;
+
+    font-size: clamp(38px,6vw,65px);
+
+    line-height: 1;
+
+    text-transform: uppercase;
+}
+
+.social-section h2 span {
+    color: var(--blue);
+}
+
+.social-section p {
+    max-width: 550px;
+
+    margin: 20px auto 30px;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+.social-buttons {
+    display: flex;
+
+    justify-content: center;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+}
+
+.social-button {
+    padding: 13px 20px;
+
+    border: 1px solid var(--border);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    transition: .2s;
+}
+
+.social-button:hover {
+    background: var(--blue);
+
+    border-color: var(--blue);
+
+    color: #06111a;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer {
+    padding: 30px 0;
+
+    background: #05070a;
+}
+
+.footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+}
+
+.footer p {
+    color: #65717d;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.lightbox {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 3000;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0,0,0,.95);
+}
+
+.lightbox.active {
+    display: flex;
+}
+
+.lightbox img {
+    width: auto;
+    height: auto;
+
+    max-width: 94vw;
+    max-height: 85vh;
+
+    object-fit: contain;
+}
+
+.lightbox-close {
+    position: absolute;
+
+    top: 20px;
+    right: 25px;
+
+    width: 44px;
+    height: 44px;
+
+    background: rgba(255,255,255,.08);
+
+    border: 1px solid rgba(255,255,255,.2);
+
+    color: white;
+
+    font-size: 25px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:900px) {
+
+    .nav-links {
+        display: none;
+
+        position: absolute;
+
+        top: 76px;
+        left: 0;
+
+        width: 100%;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 10px;
+
+        background: #070a0f;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-links.open {
+        display: flex;
+    }
+
+    .nav-links a {
+        padding: 14px;
+    }
+
+    .menu {
+        display: block;
+    }
+
+    .aircraft-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .detail-header {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-image {
+        height: 420px;
+    }
+}
+
+
+@media(max-width:600px) {
+
+    .container {
+        width: calc(100% - 28px);
+    }
+
+    .hero {
+        min-height: 500px;
+    }
+
+    .hero h1 {
+        font-size: 54px;
+
+        letter-spacing: -3px;
+    }
+
+    .gallery-section {
+        padding: 60px 0 80px;
+    }
+
+    .aircraft-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aircraft-photo {
+        height: 245px;
+    }
+
+    .detail-image {
+        height: 280px;
+    }
+
+    .detail-registration {
+        font-size: 50px;
+    }
+
+    .detail-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .photo-strip {
+        grid-template-columns: 1fr;
+    }
+
+    .photo-strip-item {
+        height: 250px;
+    }
+
+    .info-section {
+        padding: 22px;
+    }
+
+    .social-buttons {
+        flex-direction: column;
+    }
+
+    .social-button {
+        width: 100%;
+    }
+
+    .footer {
+        flex-direction: column;
+
+        text-align: center;
+    }
+}
+
+</style>
 </head>
+
 
 <body>
 
 
-<!-- =============================================================
+<!-- =========================================================
      HEADER
-     ============================================================= -->
+========================================================= -->
 
-<header class="site-header" id="top">
+<header>
 
-    <nav class="nav container">
+<nav class="nav container">
 
-        <a href="index.html" class="brand">
+<a href="index.html" class="logo">
 
-            <span class="brand-mark">✈</span>
+<span class="logo-mark">✈</span>
 
-            <span>
-                SKYSHOT<span>CONNER</span>
-            </span>
+<span>
+SKYSHOT<span>CONNER</span>
+</span>
 
-        </a>
-
-
-        <button
-            class="nav-toggle"
-            id="navToggle"
-            aria-label="Open navigation"
-        >
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+</a>
 
 
-        <div class="nav-links" id="navLinks">
+<button class="menu" id="menu">
 
-            <a href="index.html">
-                Home
-            </a>
+<span></span>
+<span></span>
+<span></span>
 
-            <a href="gallery.html" class="active">
-                Gallery
-            </a>
+</button>
 
-            <a href="index.html#archive">
-                Aircraft Archive
-            </a>
 
-            <a href="index.html#about">
-                About
-            </a>
+<div class="nav-links" id="navLinks">
 
-            <a href="index.html#locations">
-                Locations
-            </a>
+<a href="index.html">
+Home
+</a>
 
-            <a
-                href="index.html#contact"
-                class="nav-cta"
-            >
-                Contact
-            </a>
+<a href="gallery.html" class="active">
+Gallery
+</a>
 
-        </div>
+<a href="index.html#about">
+About
+</a>
 
-    </nav>
+<a href="index.html#locations">
+Locations
+</a>
+
+<a href="index.html#contact" class="nav-contact">
+Contact
+</a>
+
+</div>
+
+</nav>
 
 </header>
 
 
 
-<!-- =============================================================
+<!-- =========================================================
      HERO
-     ============================================================= -->
+========================================================= -->
 
-<section class="gallery-hero">
+<section class="hero">
 
-    <div class="gallery-hero-background"></div>
+<div class="hero-bg"></div>
 
-    <div class="gallery-hero-content container">
+<div class="hero-content container">
 
-        <p class="eyebrow">
-            SKYSHOTCONNER • AVIATION PHOTOGRAPHY
-        </p>
+<div class="eyebrow">
+SKYSHOTCONNER • AVIATION PHOTOGRAPHY
+</div>
 
-        <h1>
-            The<br>
-            <span>Gallery.</span>
-        </h1>
+<h1>
+Aircraft<br>
+<span>Gallery.</span>
+</h1>
 
-        <p class="hero-description">
-            Aircraft, airports and aviation moments captured
-            through the SkyShotConner lens.
-        </p>
+<p>
+Explore aircraft photographed through the SkyShotConner lens,
+with registrations, operators, aircraft information and
+photographer notes.
+</p>
 
-    </div>
+</div>
 
 </section>
 
 
 
-<!-- =============================================================
-     GALLERY
-     ============================================================= -->
+<!-- =========================================================
+     GALLERY VIEW
+========================================================= -->
 
-<section class="gallery-section">
+<main>
 
-    <div class="container">
+<section class="gallery-section" id="galleryView">
 
+<div class="container">
 
-        <div class="gallery-heading">
 
-            <div>
+<div class="section-title">
 
-                <p class="eyebrow">
-                    THE COLLECTION
-                </p>
+<div class="eyebrow">
+THE AIRCRAFT COLLECTION
+</div>
 
-                <h2>
-                    Aviation <span>Captured.</span>
-                </h2>
-
-            </div>
-
-            <p class="gallery-heading-text">
-
-                Explore the SkyShotConner collection.
-                More photographs will be added as the
-                archive grows.
-
-            </p>
-
-        </div>
-
-
-
-        <!-- FILTERS -->
-
-        <div class="filters">
-
-            <button
-                class="filter-button active"
-                data-filter="all"
-            >
-                All
-            </button>
-
-            <button
-                class="filter-button"
-                data-filter="commercial"
-            >
-                Commercial
-            </button>
-
-            <button
-                class="filter-button"
-                data-filter="general"
-            >
-                General Aviation
-            </button>
-
-            <button
-                class="filter-button"
-                data-filter="military"
-            >
-                Military
-            </button>
-
-            <button
-                class="filter-button"
-                data-filter="helicopter"
-            >
-                Helicopters
-            </button>
-
-            <button
-                class="filter-button"
-                data-filter="airambulance"
-            >
-                Air Ambulance
-            </button>
-
-            <button
-                class="filter-button"
-                data-filter="golden"
-            >
-                Golden Hour
-            </button>
-
-        </div>
-
-
-
-        <!-- SEARCH -->
-
-        <div class="gallery-tools">
-
-            <label class="search-box">
-
-                <span class="search-icon">
-                    ⌕
-                </span>
-
-                <input
-                    type="search"
-                    id="gallerySearch"
-                    placeholder="Search aircraft, location, airline..."
-                    autocomplete="off"
-                >
-
-            </label>
-
-        </div>
-
-
-
-        <!-- =====================================================
-             PHOTO GRID
-             ===================================================== -->
-
-        <div class="gallery-grid" id="galleryGrid">
-
-
-            <!-- PHOTO 01 -->
-
-            <article
-                class="gallery-card wide"
-                data-category="commercial golden"
-                data-title="Chasing the Light"
-                data-aircraft="Airbus A340-541"
-                data-location="Johannesburg, South Africa"
-            >
-
-                <img
-                    src="https://i.postimg.cc/XXSxRwkm/A7-HHH.jpg"
-                    alt="Commercial aircraft in the sky"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        COMMERCIAL • GOLDEN HOUR
-                    </span>
-
-                    <h3>
-                        Chasing the Light
-                    </h3>
-
-                    <p>
-                        Airbus A350 • Johannesburg
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 02 -->
-
-            <article
-                class="gallery-card"
-                data-category="commercial"
-                data-title="On Final"
-                data-aircraft="Boeing 737"
-                data-location="South Africa"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1529074963764-98f45c47344b?auto=format&fit=crop&w=1200&q=90"
-                    alt="Airliner approaching an airport"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        COMMERCIAL
-                    </span>
-
-                    <h3>
-                        On Final
-                    </h3>
-
-                    <p>
-                        Boeing 737 • South Africa
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 03 -->
-
-            <article
-                class="gallery-card"
-                data-category="general"
-                data-title="Into the Blue"
-                data-aircraft="Light Aircraft"
-                data-location="South Africa"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=1200&q=90"
-                    alt="General aviation aircraft"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        GENERAL AVIATION
-                    </span>
-
-                    <h3>
-                        Into the Blue
-                    </h3>
-
-                    <p>
-                        General Aviation • South Africa
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 04 -->
-
-            <article
-                class="gallery-card tall"
-                data-category="military"
-                data-title="Power & Precision"
-                data-aircraft="Military Aircraft"
-                data-location="South Africa"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1569629743817-70d8db6c323b?auto=format&fit=crop&w=1200&q=90"
-                    alt="Military aircraft"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        MILITARY AVIATION
-                    </span>
-
-                    <h3>
-                        Power & Precision
-                    </h3>
-
-                    <p>
-                        Military Aviation • South Africa
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 05 -->
-
-            <article
-                class="gallery-card"
-                data-category="helicopter airambulance"
-                data-title="Above the City"
-                data-aircraft="Airbus H125"
-                data-location="Gauteng"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1524211063573-8b1f2c6c5a0f?auto=format&fit=crop&w=1200&q=90"
-                    alt="Helicopter flying above a city"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        HELICOPTER
-                    </span>
-
-                    <h3>
-                        Above the City
-                    </h3>
-
-                    <p>
-                        Rotorcraft • Gauteng
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 06 -->
-
-            <article
-                class="gallery-card wide"
-                data-category="commercial golden"
-                data-title="Last Light"
-                data-aircraft="Airliner"
-                data-location="OR Tambo International"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?auto=format&fit=crop&w=1600&q=90"
-                    alt="Aircraft during sunset"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        COMMERCIAL • GOLDEN HOUR
-                    </span>
-
-                    <h3>
-                        Last Light
-                    </h3>
-
-                    <p>
-                        OR Tambo International
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 07 -->
-
-            <article
-                class="gallery-card"
-                data-category="general"
-                data-title="Ready for Departure"
-                data-aircraft="General Aviation"
-                data-location="Rand Airport"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1517479149777-5f3b1511d5ad?auto=format&fit=crop&w=1200&q=90"
-                    alt="Aircraft ready for departure"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        GENERAL AVIATION
-                    </span>
-
-                    <h3>
-                        Ready for Departure
-                    </h3>
-
-                    <p>
-                        Rand Airport • South Africa
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 08 -->
-
-            <article
-                class="gallery-card"
-                data-category="commercial"
-                data-title="Into the Clouds"
-                data-aircraft="Passenger Aircraft"
-                data-location="South Africa"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=1200&q=90"
-                    alt="Passenger aircraft in flight"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        COMMERCIAL
-                    </span>
-
-                    <h3>
-                        Into the Clouds
-                    </h3>
-
-                    <p>
-                        Passenger Aviation • South Africa
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PHOTO 09 -->
-
-            <article
-                class="gallery-card"
-                data-category="helicopter"
-                data-title="Rotor Wash"
-                data-aircraft="Helicopter"
-                data-location="Gauteng"
-            >
-
-                <img
-                    src="https://images.unsplash.com/photo-1521727857535-28d2047314a4?auto=format&fit=crop&w=1200&q=90"
-                    alt="Helicopter in flight"
-                    loading="lazy"
-                >
-
-                <div class="view-icon">
-                    +
-                </div>
-
-                <div class="gallery-info">
-
-                    <span class="gallery-category">
-                        ROTORCRAFT
-                    </span>
-
-                    <h3>
-                        Rotor Wash
-                    </h3>
-
-                    <p>
-                        Helicopter • Gauteng
-                    </p>
-
-                </div>
-
-            </article>
-
-
-        </div>
-
-
-        <p
-            id="noResults"
-            style="
-                display:none;
-                padding:50px 0;
-                text-align:center;
-                color:#75818d;
-                font-size:13px;
-            "
-        >
-            No photographs found.
-        </p>
-
-    </div>
-
-</section>
-
-
-
-<!-- =============================================================
-     SOCIAL SECTION
-     ============================================================= -->
-
-<section class="social-section">
-
-    <div class="container">
-
-        <p class="eyebrow">
-            FOLLOW THE JOURNEY
-        </p>
-
-        <h2>
-            More aviation.<br>
-            <span>More often.</span>
-        </h2>
-
-        <p>
-            Follow SkyShotConner for new aviation photographs,
-            spotting sessions and aviation adventures.
-        </p>
-
-
-        <div class="social-buttons">
-
-            <!-- INSTAGRAM -->
-
-            <a
-                href="https://www.instagram.com/skyshotconner/"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-button"
-            >
-                Instagram
-            </a>
-
-
-            <!-- JETPHOTOS -->
-
-            <a
-                href="https://www.jetphotos.com/photographer/454122"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-button"
-            >
-                JetPhotos
-            </a>
-
-
-            <!-- ADD FACEBOOK LATER -->
-
-            <a
-                href="#"
-                class="social-button"
-                onclick="alert('Facebook link coming soon!'); return false;"
-            >
-                Facebook
-            </a>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =============================================================
-     LIGHTBOX
-     ============================================================= -->
-
-<div
-    class="lightbox"
-    id="lightbox"
-    aria-hidden="true"
->
-
-    <button
-        class="lightbox-close"
-        id="lightboxClose"
-        aria-label="Close image"
-    >
-        ×
-    </button>
-
-
-    <img
-        class="lightbox-image"
-        id="lightboxImage"
-        src=""
-        alt=""
-    >
-
-
-    <div class="lightbox-details">
-
-        <small id="lightboxCategory">
-            AVIATION PHOTOGRAPHY
-        </small>
-
-        <h3 id="lightboxTitle">
-            Photo
-        </h3>
-
-    </div>
+<h2>
+Aircraft <span>Archive.</span>
+</h2>
 
 </div>
 
 
 
-<!-- =============================================================
+<!-- SEARCH -->
+
+<div class="search">
+
+<div class="search-icon">
+⌕
+</div>
+
+<input
+type="search"
+id="search"
+placeholder="Search registration, aircraft, airline, airport..."
+>
+
+</div>
+
+
+
+<!-- FILTERS -->
+
+<div class="filters">
+
+<button class="filter active" data-filter="all">
+All
+</button>
+
+<button class="filter" data-filter="commercial">
+Commercial
+</button>
+
+<button class="filter" data-filter="military">
+Military
+</button>
+
+<button class="filter" data-filter="general">
+General Aviation
+</button>
+
+<button class="filter" data-filter="helicopter">
+Helicopters
+</button>
+
+<button class="filter" data-filter="airambulance">
+Air Ambulance
+</button>
+
+</div>
+
+
+
+<!-- AIRCRAFT GRID -->
+
+<div class="aircraft-grid" id="aircraftGrid"></div>
+
+
+<div class="no-results" id="noResults">
+No aircraft matched your search.
+</div>
+
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
+     AIRCRAFT DETAIL
+========================================================= -->
+
+<section class="aircraft-detail" id="aircraftDetail">
+
+<div class="container">
+
+<button class="back-button" id="backButton">
+← Back to Gallery
+</button>
+
+
+<div class="detail-header">
+
+<div class="detail-image">
+
+<img id="detailImage" src="" alt="">
+
+</div>
+
+
+<div class="detail-info">
+
+<div class="detail-label">
+AIRCRAFT PROFILE
+</div>
+
+<div class="detail-registration" id="detailRegistration">
+</div>
+
+<div class="detail-type" id="detailType">
+</div>
+
+<div class="detail-operator" id="detailOperator">
+</div>
+
+
+<p class="detail-description" id="detailDescription">
+</p>
+
+
+<div class="detail-stats">
+
+<div class="stat">
+
+<div class="stat-label">
+Manufacturer
+</div>
+
+<div class="stat-value" id="detailManufacturer">
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Aircraft Type
+</div>
+
+<div class="stat-value" id="detailAircraftType">
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+MSN
+</div>
+
+<div class="stat-value" id="detailMSN">
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+First Flight
+</div>
+
+<div class="stat-value" id="detailFirstFlight">
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Location
+</div>
+
+<div class="stat-value" id="detailLocation">
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+Airport
+</div>
+
+<div class="stat-value" id="detailAirport">
+</div>
+
+</div>
+
+</div>
+
+
+<button class="like-button" id="likeButton">
+
+<span>♡</span>
+
+<span id="likeText">
+Like Aircraft
+</span>
+
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- AIRCRAFT DESCRIPTION -->
+
+<div class="info-section">
+
+<h3>
+About <span>This Aircraft.</span>
+</h3>
+
+<p id="detailAbout">
+</p>
+
+</div>
+
+
+
+<!-- PHOTOGRAPHER NOTES -->
+
+<div class="info-section">
+
+<h3>
+Photographer's <span>Notes.</span>
+</h3>
+
+<p id="detailNotes">
+</p>
+
+</div>
+
+
+
+<!-- OTHER PHOTOS -->
+
+<div class="other-photos">
+
+<h2>
+More Photos of <span>This Aircraft.</span>
+</h2>
+
+<div class="photo-strip" id="photoStrip"></div>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+
+<!-- =========================================================
+     SOCIAL
+========================================================= -->
+
+<section class="social-section">
+
+<div class="container">
+
+<div class="eyebrow">
+FOLLOW THE JOURNEY
+</div>
+
+<h2>
+More aviation.<br>
+<span>More often.</span>
+</h2>
+
+<p>
+Follow SkyShotConner for new aviation photographs,
+aircraft sightings and spotting adventures.
+</p>
+
+
+<div class="social-buttons">
+
+<a
+href="https://www.instagram.com/skyshotconner/"
+target="_blank"
+rel="noopener noreferrer"
+class="social-button"
+>
+Instagram
+</a>
+
+
+<a
+href="https://www.jetphotos.com/photographer/454122"
+target="_blank"
+rel="noopener noreferrer"
+class="social-button"
+>
+JetPhotos
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- =========================================================
      FOOTER
-     ============================================================= -->
+========================================================= -->
 
 <footer>
 
-    <div class="container footer-inner">
+<div class="footer container">
 
-        <a
-            href="index.html"
-            class="brand"
-        >
+<a href="index.html" class="logo">
 
-            <span class="brand-mark">
-                ✈
-            </span>
+<span class="logo-mark">✈</span>
 
-            <span>
-                SKYSHOT<span>CONNER</span>
-            </span>
+<span>
+SKYSHOT<span>CONNER</span>
+</span>
 
-        </a>
+</a>
 
 
-        <p>
-            © <span id="year"></span>
-            SkyShotConner.
-            Aviation Photography • South Africa.
-        </p>
+<p>
+© <span id="year"></span>
+SkyShotConner • Aviation Photography
+</p>
 
-
-        <a
-            href="#top"
-            class="back-top"
-        >
-            ↑ Back to top
-        </a>
-
-    </div>
+</div>
 
 </footer>
 
 
 
-<!-- =============================================================
-     JAVASCRIPT
-     ============================================================= -->
+<!-- =========================================================
+     LIGHTBOX
+========================================================= -->
+
+<div class="lightbox" id="lightbox">
+
+<button class="lightbox-close" id="lightboxClose">
+×
+</button>
+
+<img id="lightboxImage" src="" alt="">
+
+</div>
+
+
 
 <script>
 
-    /* =========================================================
-       MOBILE NAVIGATION
-       ========================================================= */
+/* =========================================================
+   AIRCRAFT DATABASE
+========================================================= */
 
-    const navToggle = document.getElementById("navToggle");
-    const navLinks = document.getElementById("navLinks");
+/*
+   THESE ARE DEMO AIRCRAFT.
 
-    navToggle.addEventListener("click", function () {
+   Later we can replace these with your real aircraft.
 
-        navLinks.classList.toggle("open");
-
-    });
-
-
-    navLinks.querySelectorAll("a").forEach(function (link) {
-
-        link.addEventListener("click", function () {
-
-            navLinks.classList.remove("open");
-
-        });
-
-    });
+   The dashboard will eventually create these records
+   automatically.
+*/
 
 
+const aircraft = [
 
-    /* =========================================================
-       HEADER SCROLL EFFECT
-       ========================================================= */
+    {
+        id: 1,
 
-    const header = document.querySelector(".site-header");
+        registration: "ZS-SXX",
 
-    window.addEventListener("scroll", function () {
+        type: "Boeing 737-800",
 
-        if (window.scrollY > 20) {
+        shortType: "737-8AS",
 
-            header.classList.add("scrolled");
+        operator: "FlySafair",
 
-        } else {
+        category: "commercial",
 
-            header.classList.remove("scrolled");
+        manufacturer: "Boeing",
 
-        }
+        msn: "12345",
 
-    });
+        firstFlight: "2018",
 
+        location: "Johannesburg, South Africa",
 
+        airport: "OR Tambo International",
 
-    /* =========================================================
-       GALLERY FILTER
-       ========================================================= */
+        image:
+        "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=90",
 
-    const filterButtons =
-        document.querySelectorAll(".filter-button");
+        description:
+        "The Boeing 737-800 is part of Boeing's Next Generation 737 family. The type is widely operated around the world for short and medium-haul passenger services and is known for its efficiency and versatility.",
 
-    const galleryCards =
-        document.querySelectorAll(".gallery-card");
+        notes:
+        "Captured during an evening departure from Johannesburg, with the aircraft catching the final light of the day as it climbed away from the airport.",
 
-    const searchInput =
-        document.getElementById("gallerySearch");
+        likes: 0,
 
-    const noResults =
-        document.getElementById("noResults");
+        photos: [
 
-    let currentFilter = "all";
+            "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=90",
 
+            "https://images.unsplash.com/photo-1529074963764-98f45c47344b?auto=format&fit=crop&w=1200&q=90"
 
-    function filterGallery() {
+        ]
 
-        const search =
-            searchInput.value.toLowerCase().trim();
-
-        let visibleCards = 0;
+    },
 
 
-        galleryCards.forEach(function (card) {
+    {
+        id: 2,
 
-            const categories =
-                card.dataset.category.toLowerCase();
+        registration: "ZS-ABC",
 
-            const title =
-                card.dataset.title.toLowerCase();
+        type: "Airbus A320-200",
 
-            const aircraft =
-                card.dataset.aircraft.toLowerCase();
+        shortType: "A320-232",
 
-            const location =
-                card.dataset.location.toLowerCase();
+        operator: "Airlink",
+
+        category: "commercial",
+
+        manufacturer: "Airbus",
+
+        msn: "54321",
+
+        firstFlight: "2016",
+
+        location: "Johannesburg, South Africa",
+
+        airport: "OR Tambo International",
+
+        image:
+        "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=1400&q=90",
+
+        description:
+        "The Airbus A320 is one of the world's most successful narrow-body passenger aircraft families. It is widely used on domestic, regional and international routes.",
+
+        notes:
+        "Photographed during a busy afternoon spotting session at OR Tambo International Airport.",
+
+        likes: 0,
+
+        photos: [
+
+            "https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=1400&q=90",
+
+            "https://images.unsplash.com/photo-1529074963764-98f45c47344b?auto=format&fit=crop&w=1200&q=90"
+
+        ]
+
+    },
 
 
-            const matchesFilter =
-                currentFilter === "all" ||
-                categories.includes(currentFilter);
+    {
+        id: 3,
+
+        registration: "ZS-MIL",
+
+        type: "Military Aircraft",
+
+        shortType: "Military",
+
+        operator: "South African Air Force",
+
+        category: "military",
+
+        manufacturer: "Various",
+
+        msn: "N/A",
+
+        firstFlight: "N/A",
+
+        location: "South Africa",
+
+        airport: "Air Force Base",
+
+        image:
+        "https://images.unsplash.com/photo-1569629743817-70d8db6c323b?auto=format&fit=crop&w=1400&q=90",
+
+        description:
+        "Military aviation encompasses aircraft designed for a wide variety of missions including air defence, transport, reconnaissance, training and tactical operations.",
+
+        notes:
+        "Captured during an aviation event showcasing military aviation and aircraft operations.",
+
+        likes: 0,
+
+        photos: [
+
+            "https://images.unsplash.com/photo-1569629743817-70d8db6c323b?auto=format&fit=crop&w=1400&q=90",
+
+            "https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=1200&q=90"
+
+        ]
+
+    },
 
 
-            const matchesSearch =
-                !search ||
-                title.includes(search) ||
-                aircraft.includes(search) ||
-                location.includes(search) ||
-                categories.includes(search);
+    {
+        id: 4,
+
+        registration: "ZS-HELI",
+
+        type: "Airbus H125",
+
+        shortType: "AS350 B3e",
+
+        operator: "Private Operator",
+
+        category: "helicopter",
+
+        manufacturer: "Airbus Helicopters",
+
+        msn: "98765",
+
+        firstFlight: "2020",
+
+        location: "Gauteng, South Africa",
+
+        airport: "Rand Airport",
+
+        image:
+        "https://images.unsplash.com/photo-1524211063573-8b1f2c6c5a0f?auto=format&fit=crop&w=1400&q=90",
+
+        description:
+        "The Airbus H125 is a high-performance single-engine helicopter designed for a wide range of missions including utility work, aerial photography, emergency services and passenger transport.",
+
+        notes:
+        "Photographed during a low-level departure, giving a clear view of the helicopter and rotor system.",
+
+        likes: 0,
+
+        photos: [
+
+            "https://images.unsplash.com/photo-1524211063573-8b1f2c6c5a0f?auto=format&fit=crop&w=1400&q=90"
+
+        ]
+
+    },
 
 
-            if (matchesFilter && matchesSearch) {
+    {
+        id: 5,
 
-                card.classList.remove("hidden");
+        registration: "ZS-EMS",
 
-                visibleCards++;
+        type: "Emergency Medical Helicopter",
 
-            } else {
+        shortType: "EMS Helicopter",
 
-                card.classList.add("hidden");
+        operator: "Air Ambulance",
 
-            }
+        category: "airambulance",
 
-        });
+        manufacturer: "Various",
+
+        msn: "N/A",
+
+        firstFlight: "N/A",
+
+        location: "Gauteng, South Africa",
+
+        airport: "Various",
+
+        image:
+        "https://images.unsplash.com/photo-1521727857535-28d2047314a4?auto=format&fit=crop&w=1400&q=90",
+
+        description:
+        "Air ambulance helicopters provide rapid medical transport and emergency response capabilities, allowing medical crews to reach patients and hospitals quickly.",
+
+        notes:
+        "Aviation and emergency services are two of my biggest interests, making air ambulance photography particularly special.",
+
+        likes: 0,
+
+        photos: [
+
+            "https://images.unsplash.com/photo-1521727857535-28d2047314a4?auto=format&fit=crop&w=1400&q=90"
+
+        ]
+
+    },
 
 
-        if (visibleCards === 0) {
+    {
+        id: 6,
 
-            noResults.style.display = "block";
+        registration: "ZS-GA01",
 
-        } else {
+        type: "General Aviation Aircraft",
 
-            noResults.style.display = "none";
+        shortType: "GA",
 
-        }
+        operator: "Private",
+
+        category: "general",
+
+        manufacturer: "Various",
+
+        msn: "N/A",
+
+        firstFlight: "N/A",
+
+        location: "Gauteng, South Africa",
+
+        airport: "Rand Airport",
+
+        image:
+        "https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=1400&q=90",
+
+        description:
+        "General aviation includes a huge variety of aircraft outside scheduled airline and military operations, from training aircraft and business jets to private aircraft.",
+
+        notes:
+        "Captured during a general aviation spotting session at Rand Airport.",
+
+        likes: 0,
+
+        photos: [
+
+            "https://images.unsplash.com/photo-1474302770737-173ee21bab63?auto=format&fit=crop&w=1400&q=90"
+
+        ]
 
     }
 
+];
 
-    filterButtons.forEach(function (button) {
 
-        button.addEventListener("click", function () {
+/* =========================================================
+   ELEMENTS
+========================================================= */
 
-            filterButtons.forEach(function (btn) {
+const aircraftGrid =
+document.getElementById("aircraftGrid");
 
-                btn.classList.remove("active");
+const search =
+document.getElementById("search");
 
-            });
+const filters =
+document.querySelectorAll(".filter");
 
+const noResults =
+document.getElementById("noResults");
+
+const galleryView =
+document.getElementById("galleryView");
+
+const aircraftDetail =
+document.getElementById("aircraftDetail");
+
+
+/* =========================================================
+   RENDER GALLERY
+========================================================= */
+
+function renderGallery(list) {
+
+    aircraftGrid.innerHTML = "";
+
+    if (list.length === 0) {
+
+        noResults.style.display = "block";
+
+        return;
+
+    }
+
+    noResults.style.display = "none";
+
+
+    list.forEach(item => {
+
+        const card =
+        document.createElement("article");
+
+        card.className =
+        "aircraft-card";
+
+
+        card.innerHTML = `
+
+            <div class="aircraft-photo">
+
+                <img
+                    src="${item.image}"
+                    alt="${item.type} ${item.registration}"
+                    loading="lazy"
+                >
+
+                <div class="photo-count">
+                    📷 ${item.photos.length}
+                </div>
+
+            </div>
+
+
+            <div class="aircraft-body">
+
+                <div class="aircraft-registration">
+                    ${item.registration}
+                </div>
+
+                <div class="aircraft-type">
+                    ${item.type}
+                </div>
+
+                <div class="aircraft-operator">
+                    ${item.operator}
+                </div>
+
+
+                <div class="aircraft-meta">
+
+                    <span>
+                        ${item.airport}
+                    </span>
+
+                    <span>
+                        View →
+                    </span>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        card.addEventListener(
+            "click",
+            () => openAircraft(item.id)
+        );
+
+
+        aircraftGrid.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================================================
+   FILTER / SEARCH
+========================================================= */
+
+let currentFilter = "all";
+
+
+function filterGallery() {
+
+    const query =
+    search.value
+    .toLowerCase()
+    .trim();
+
+
+    const results =
+    aircraft.filter(item => {
+
+        const matchesFilter =
+        currentFilter === "all" ||
+        item.category === currentFilter;
+
+
+        const searchable =
+        `
+        ${item.registration}
+        ${item.type}
+        ${item.operator}
+        ${item.location}
+        ${item.airport}
+        ${item.manufacturer}
+        `
+        .toLowerCase();
+
+
+        const matchesSearch =
+        !query ||
+        searchable.includes(query);
+
+
+        return matchesFilter && matchesSearch;
+
+    });
+
+
+    renderGallery(results);
+
+}
+
+
+filters.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            filters.forEach(btn =>
+                btn.classList.remove("active")
+            );
 
             button.classList.add("active");
 
-
             currentFilter =
-                button.dataset.filter;
-
+            button.dataset.filter;
 
             filterGallery();
 
-        });
+        }
+    );
 
-    });
+});
 
 
-    searchInput.addEventListener(
-        "input",
-        filterGallery
+search.addEventListener(
+    "input",
+    filterGallery
+);
+
+
+/* =========================================================
+   OPEN AIRCRAFT
+========================================================= */
+
+function openAircraft(id) {
+
+    const item =
+    aircraft.find(
+        aircraftItem => aircraftItem.id === id
     );
 
 
-
-    /* =========================================================
-       LIGHTBOX
-       ========================================================= */
-
-    const lightbox =
-        document.getElementById("lightbox");
-
-    const lightboxImage =
-        document.getElementById("lightboxImage");
-
-    const lightboxTitle =
-        document.getElementById("lightboxTitle");
-
-    const lightboxCategory =
-        document.getElementById("lightboxCategory");
-
-    const lightboxClose =
-        document.getElementById("lightboxClose");
+    if (!item) return;
 
 
-    galleryCards.forEach(function (card) {
-
-        card.addEventListener("click", function () {
-
-            const image =
-                card.querySelector("img");
-
-            lightboxImage.src =
-                image.src;
-
-            lightboxImage.alt =
-                image.alt;
-
-            lightboxTitle.textContent =
-                card.dataset.title;
-
-            lightboxCategory.textContent =
-                card.dataset.aircraft +
-                " • " +
-                card.dataset.location;
+    document.getElementById(
+        "detailImage"
+    ).src = item.image;
 
 
-            lightbox.classList.add("open");
-
-            lightbox.setAttribute(
-                "aria-hidden",
-                "false"
-            );
+    document.getElementById(
+        "detailImage"
+    ).alt =
+    `${item.type} ${item.registration}`;
 
 
-            document.body.style.overflow =
-                "hidden";
+    document.getElementById(
+        "detailRegistration"
+    ).textContent =
+    item.registration;
 
-        });
+
+    document.getElementById(
+        "detailType"
+    ).textContent =
+    item.type;
+
+
+    document.getElementById(
+        "detailOperator"
+    ).textContent =
+    item.operator;
+
+
+    document.getElementById(
+        "detailDescription"
+    ).textContent =
+    item.description;
+
+
+    document.getElementById(
+        "detailManufacturer"
+    ).textContent =
+    item.manufacturer;
+
+
+    document.getElementById(
+        "detailAircraftType"
+    ).textContent =
+    item.shortType;
+
+
+    document.getElementById(
+        "detailMSN"
+    ).textContent =
+    item.msn;
+
+
+    document.getElementById(
+        "detailFirstFlight"
+    ).textContent =
+    item.firstFlight;
+
+
+    document.getElementById(
+        "detailLocation"
+    ).textContent =
+    item.location;
+
+
+    document.getElementById(
+        "detailAirport"
+    ).textContent =
+    item.airport;
+
+
+    document.getElementById(
+        "detailAbout"
+    ).textContent =
+    item.description;
+
+
+    document.getElementById(
+        "detailNotes"
+    ).textContent =
+    item.notes;
+
+
+    /* OTHER PHOTOS */
+
+    const photoStrip =
+    document.getElementById("photoStrip");
+
+    photoStrip.innerHTML = "";
+
+
+    item.photos.forEach(photo => {
+
+        const wrapper =
+        document.createElement("div");
+
+        wrapper.className =
+        "photo-strip-item";
+
+
+        const image =
+        document.createElement("img");
+
+        image.src = photo;
+
+        image.alt =
+        `${item.type} ${item.registration}`;
+
+
+        wrapper.appendChild(image);
+
+
+        wrapper.addEventListener(
+            "click",
+            () => openLightbox(photo)
+        );
+
+
+        photoStrip.appendChild(wrapper);
 
     });
 
 
-    function closeLightbox() {
+    /* LIKE BUTTON */
 
-        lightbox.classList.remove("open");
+    const likeButton =
+    document.getElementById("likeButton");
 
-        lightbox.setAttribute(
-            "aria-hidden",
-            "true"
-        );
+    const liked =
+    localStorage.getItem(
+        `liked-aircraft-${item.id}`
+    );
 
-        document.body.style.overflow =
-            "";
+
+    if (liked) {
+
+        likeButton.classList.add("liked");
+
+        likeButton.innerHTML =
+        "♥ Liked";
+
+    } else {
+
+        likeButton.classList.remove("liked");
+
+        likeButton.innerHTML =
+        "♡ Like Aircraft";
 
     }
 
 
-    lightboxClose.addEventListener(
-        "click",
-        closeLightbox
-    );
+    likeButton.onclick = () => {
+
+        const key =
+        `liked-aircraft-${item.id}`;
 
 
-    lightbox.addEventListener(
-        "click",
-        function (event) {
+        if (
+            localStorage.getItem(key)
+        ) {
 
-            if (event.target === lightbox) {
+            localStorage.removeItem(key);
 
-                closeLightbox();
+            likeButton.classList.remove("liked");
 
-            }
+            likeButton.innerHTML =
+            "♡ Like Aircraft";
 
-        }
-    );
+        } else {
 
+            localStorage.setItem(key, "true");
 
-    document.addEventListener(
-        "keydown",
-        function (event) {
+            likeButton.classList.add("liked");
 
-            if (event.key === "Escape") {
-
-                closeLightbox();
-
-            }
+            likeButton.innerHTML =
+            "♥ Liked";
 
         }
-    );
+
+    };
 
 
+    /* SHOW DETAIL */
 
-    /* =========================================================
-       CURRENT YEAR
-       ========================================================= */
+    galleryView.style.display =
+    "none";
 
-    document.getElementById("year").textContent =
-        new Date().getFullYear();
+    aircraftDetail.classList.add("active");
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================================================
+   BACK TO GALLERY
+========================================================= */
+
+document
+.getElementById("backButton")
+.addEventListener(
+    "click",
+    () => {
+
+        aircraftDetail.classList.remove("active");
+
+        galleryView.style.display =
+        "block";
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+    }
+);
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+const lightbox =
+document.getElementById("lightbox");
+
+const lightboxImage =
+document.getElementById("lightboxImage");
+
+
+function openLightbox(image) {
+
+    lightboxImage.src =
+    image;
+
+    lightbox.classList.add("active");
+
+    document.body.style.overflow =
+    "hidden";
+
+}
+
+
+function closeLightbox() {
+
+    lightbox.classList.remove("active");
+
+    document.body.style.overflow =
+    "";
+
+}
+
+
+document
+.getElementById("lightboxClose")
+.addEventListener(
+    "click",
+    closeLightbox
+);
+
+
+lightbox.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === lightbox
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeLightbox();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menu =
+document.getElementById("menu");
+
+const navLinks =
+document.getElementById("navLinks");
+
+
+menu.addEventListener(
+    "click",
+    () => {
+
+        navLinks.classList.toggle(
+            "open"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   YEAR
+========================================================= */
+
+document.getElementById(
+    "year"
+).textContent =
+new Date().getFullYear();
+
+
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
+
+renderGallery(aircraft);
 
 </script>
 
