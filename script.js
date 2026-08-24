@@ -10,83 +10,83 @@
 const aircraft = [
 
     {
-        aircraft: "Airbus A350-941",
-        registration: "A7-ALM",
+        aircraft: "Airbus A340-541",
+        registration: "A7-HHH",
         operator: "Qatar Airways",
         type: "Airliner",
         location: "Johannesburg"
     },
 
     {
-        aircraft: "Airbus A380-861",
-        registration: "A6-EOK",
-        operator: "Emirates",
+        aircraft: "Airbus A320-232",
+        registration: "ZS-GAO",
+        operator: "Lift/ Global Aviation",
         type: "Airliner",
         location: "Johannesburg"
     },
 
     {
         aircraft: "Embraer E195-E2",
-        registration: "ZS-EXT",
+        registration: "ZS-LKG",
         operator: "Airlink",
         type: "Airliner",
         location: "Johannesburg"
     },
 
     {
-        aircraft: "Boeing 737-800",
-        registration: "ZS-SXA",
-        operator: "South African Airways",
+        aircraft: "Airbus A350-941",
+        registration: "A7-ALP",
+        operator: "Qatar Airways",
         type: "Airliner",
         location: "Johannesburg"
     },
 
     {
-        aircraft: "Piper PA-28RT-201T Turbo",
-        registration: "ZS-NCO",
-        operator: "Private",
-        type: "General Aviation",
-        location: "Rand"
-    },
-
-    {
-        aircraft: "Beechcraft 1900D",
-        registration: "ZS-SET",
-        operator: "Regional",
-        type: "Airliner",
-        location: "South Africa"
-    },
-
-    {
-        aircraft: "Pitts S-2B Special",
-        registration: "ZS-LPK",
-        operator: "Private",
-        type: "General Aviation",
-        location: "Rand"
-    },
-
-    {
-        aircraft: "T-6 Harvard",
-        registration: "ZU-FNE",
-        operator: "Historic",
-        type: "Military",
-        location: "South Africa"
-    },
-
-    {
-        aircraft: "Lucombe 8E Silvaire",
-        registration: "ZS-VFG",
-        operator: "Private",
-        type: "General Aviation",
-        location: "South Africa"
-    },
-
-    {
-        aircraft: "Airbus H125",
-        registration: "ZS-XXX",
-        operator: "Air Ambulance",
+        aircraft: "Bell 230",
+        registration: "ZT-HDA",
+        operator: "Henely Air/ Rocket Air Ambulance",
         type: "Helicopter",
-        location: "Gauteng"
+        location: "Rand Airport"
+    },
+
+    {
+        aircraft: "Airbus A350-941",
+        registration: "9V-SJG",
+        operator: "Singapore Airlines",
+        type: "Airliner",
+        location: "Johannesburg"
+    },
+
+    {
+        aircraft: "Cessna 182P Skylane",
+        registration: "ZS-IWK",
+        operator: "Private",
+        type: "General Aviation",
+        location: "Rand Airport"
+    },
+
+    {
+        aircraft: "Airbus A350-941",
+        registration: "TC-LGB",
+        operator: "Turckish Airlines",
+        type: "Airliner",
+        location: "Johannesburg"
+    },
+
+    {
+        aircraft: "Boeing 777F/ 777-FFX",
+        registration: "A6-DDC",
+        operator: "Etihad Cargo",
+        type: "Airliner",
+        location: "Johannesburg"
+    },
+
+    {
+        aircraft: "Boeing 737-8BG",
+        registration: "ZS-SJO",
+        operator: "FlySafair",
+        type: "Airliner",
+        location: "Johannesburg"
     }
 
 ];
