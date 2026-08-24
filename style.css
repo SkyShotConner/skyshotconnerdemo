@@ -1395,7 +1395,31 @@ footer {
     }
 
 }
+.coffee-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
 
+    padding: 13px 20px;
+
+    background: #55b8ff;
+    color: #06111a;
+
+    border: 1px solid #55b8ff;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+    transition: 0.2s;
+}
+
+.coffee-button:hover {
+    background: transparent;
+    color: #55b8ff;
+}
 
 /* =========================================================
    SMALL PHONES
