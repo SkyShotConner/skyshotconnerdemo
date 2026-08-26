@@ -1602,7 +1602,21 @@ SkyShotConner • Aviation Photography
    The dashboard will eventually create these records
    automatically.
 */
+async function testSupabaseConnection() {
+    const { data, error } = await supabaseClient
+        .from("aircraft")
+        .select("*")
+        .limit(5);
 
+    if (error) {
+        console.error("Supabase connection error:", error);
+        return;
+    }
+
+    console.log("Supabase aircraft data:", data);
+}
+
+testSupabaseConnection();
 
 const aircraft = [
 
