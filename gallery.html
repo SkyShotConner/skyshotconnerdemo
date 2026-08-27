@@ -1618,619 +1618,294 @@ async function testSupabaseConnection() {
 
 testSupabaseConnection();
 
-const aircraft = [
+/* =========================================================
+   AIRCRAFT DATABASE — SUPABASE
+========================================================= */
 
-    {
-        id: 1,
+/*
+   Aircraft information now comes from Supabase.
 
-        registration: "A7-HHH",
+   We are temporarily keeping the existing photograph URLs
+   here while we connect the photos table in the next step.
 
-        type: "Airbus A340-541",
+   This means:
+   - Aircraft information = Supabase
+   - Main image = existing image URL
+   - Additional photos = existing photo URLs
+*/
 
-        shortType: "A340-541",
+let aircraft = [];
 
-        operator: "Qatar Amiri Flight",
 
-        category: "commercial",
+/* =========================================================
+   EXISTING PHOTOGRAPH LINKS
+========================================================= */
 
-        manufacturer: "Airbus",
+const aircraftMedia = {
 
-        msn: "495",
-
-        firstFlight: "11 June 2003",
-
-        location: "Johannesburg, South Africa",
-
-        airport: "OR Tambo International",
-
-        image:
-        "https://i.postimg.cc/XXSxRwkm/A7-HHH.jpg",
-
-        description:
-        "A7-HHH is an Airbus A340-541 operated by Qatar Amiri Flight as a VIP transport aircraft for high-ranking Qatari government officials and royal flights. First flown in 2003, it is powered by four Rolls-Royce Trent 553 engines. As one of the rarer A340-500s still in service, A7-HHH is a notable sight for aviation enthusiasts and photographers.",
-
-        notes:
-        "Photographed between 15:00 and 16:00 during the L21 approach. A7-HHH was captured on approach in good afternoon light, providing a clear view of the aircraft's distinctive four-engine configuration and Qatar Amiri Flight livery.",
-
-        likes: 0,
-
-        photos: [
-           
-        ]
-
+    "A7-HHH": {
+        image: "https://i.postimg.cc/XXSxRwkm/A7-HHH.jpg",
+        photos: []
     },
 
-
-    {
-        id: 2,
-
-        registration: "ZS-GAO",
-
-        type: "Airbus A320-200",
-
-        shortType: "A320-231",
-
-        operator: "Lift/ Global Aviation",
-
-        category: "commercial",
-
-        manufacturer: "Airbus",
-
-        msn: "008126",
-
-        firstFlight: "18 July 1989",
-
-        location: "Johannesburg, South Africa",
-
-        airport: "OR Tambo International",
-
-        image:
-        "https://i.postimg.cc/L4VnKW7f/DSC-0203.jpg",
-
-        description:
-        "LIFT Airline Airbus A320-232 ZS-GOA, wearing the distinctive Eurocar livery, operated by LIFT Airline. The aircraft is a familiar sight across South African airports, combining LIFT’s modern branding with Eurocar’s striking promotional scheme.",
-
-        notes:
-        "ZS-GOA captured on the ramp in its Eurocar livery, with ground handling operations underway. The aircraft was being prepared for its next flight as ramp activity got underway around it.",
-
-        likes: 0,
-
-        photos: [
-
-        ]
-
+    "ZS-GAO": {
+        image: "https://i.postimg.cc/L4VnKW7f/DSC-0203.jpg",
+        photos: []
     },
 
-
-    {
-        id: 3,
-
-        registration: "ZS-LKG",
-
-        type: "Embraer E195-E2 (ERJ 190-400 STD)",
-
-        shortType: "ERJ 190-400 STD",
-
-        operator: "Airlink",
-
-        category: "commercial",
-
-        manufacturer: "Embraer",
-
-        msn: "19020229",
-
-        firstFlight: "3–4 July 2026",
-
-        location: "Gauteng, South Africa",
-
-        airport: "OR Tambo International",
-
-        image:
-        "https://i.postimg.cc/m28jD8cs/ZS-LKG.jpg",
-
-        description:
-        "ZS-LKG is an Embraer E195-E2 operated by Airlink. With MSN 19020229, this modern regional jet was built in São José dos Campos, Brazil, and entered Airlink service in July 2026. Powered by two Pratt & Whitney PW1900G-series engines, the aircraft represents the latest generation of Airlink's growing E-Jet fleet, offering improved efficiency, performance and passenger comfort.",
-
-        notes:
-        "ZS-LKG captured on approach during the afternoon, showcasing Airlink's newest-generation Embraer E195-E2 as it descends toward the airport. The afternoon light provided a great opportunity to capture the aircraft in flight, highlighting its distinctive Airlink livery and modern E2 design.",
-
-        likes: 0,
-
-        photos: [
-
-        ]
-
+    "ZS-LKG": {
+        image: "https://i.postimg.cc/m28jD8cs/ZS-LKG.jpg",
+        photos: []
     },
 
-
-    {
-        id: 4,
-
-        registration: "A7-ALP",
-
-        type: "Airbus A350-941",
-
-        shortType: "A350-941",
-
-        operator: "Qatar Airways",
-
-        category: "commercial",
-
-        manufacturer: "Airbus",
-
-        msn: "069",
-
-        firstFlight: "6 April 2017",
-
-        location: "Gauteng, South Africa",
-
-        airport: "OR Tambo International",
-
-        image:
-        "https://i.postimg.cc/sD6Pyx8R/DSC-0380.jpg",
-
-        description:
-        "A7-ALP is an Airbus A350-941 operated by Qatar Airways. Built as MSN 069, the aircraft first took to the skies on 6 April 2017 before being delivered to Qatar Airways on 23 May 2017. Powered by two Rolls-Royce Trent XWB-84 engines, the A350-900 forms an important part of Qatar Airways' long-haul fleet, connecting Doha with destinations around the world.",
-
-        notes:
-        "A7-ALP captured taxiing toward Runway 21R at O.R. Tambo International Airport, preparing for its long-haul service from Johannesburg (JNB) to Doha (DOH). The Qatar Airways A350 made an impressive sight as it taxied toward the runway, ready to begin its journey north to Qatar.",
-
-        likes: 0,
-
+    "A7-ALP": {
+        image: "https://i.postimg.cc/sD6Pyx8R/DSC-0380.jpg",
         photos: [
-
             "https://i.postimg.cc/GpksBmMB/DSC-0426.jpg"
-
         ]
-
     },
 
-
-    {
-        id: 5,
-
-        registration: "ZT-HDA",
-
-        type: "Bell 230",
-
-        shortType: "EMS Helicopter",
-
-        operator: "Rocket Air Ambulance/ Henley Air",
-
-        category: "airambulance",
-
-        manufacturer: "Bell Aircraft",
-
-        msn: "23038",
-
-        firstFlight: "1996",
-
-        location: "Gauteng, South Africa",
-
-        airport: "Johannesburg Rand Aiport",
-
-        image:
-        "https://i.postimg.cc/ZYwDQbTk/DSC-0202.jpg",
-
-        description:
-        "ZT-HDA is a Bell 230 operated by Henley Air and based at Rand Airport in Germiston, South Africa. Built in 1996 with serial number 23038, the helicopter has served in specialist aviation roles and has been associated with Henley Air's Children's Flight operations. Its distinctive presence makes it a notable helicopter in South Africa's emergency and aviation community.",
-
-        notes:
-        "ZT-HDA photographed parked at Rand Airport, with the Bell 230 resting on the apron at its Henley Air base. The helicopter made an interesting subject while stationary at the airport, showcasing one of Henley Air's distinctive rotorcraft.",
-
-        likes: 0,
-
-        photos: [
-
-        ]
-
+    "ZT-HDA": {
+        image: "https://i.postimg.cc/ZYwDQbTk/DSC-0202.jpg",
+        photos: []
     },
 
-
-    {
-        id: 6,
-
-        registration: "9V-SJG",
-
-        type: "Airbus A350-941",
-
-        shortType: "A350-941",
-
-        operator: "Singapore Airlines",
-
-        category: "commercial",
-
-        manufacturer: "Airbus",
-
-        msn: "629",
-
-        firstFlight: "2023",
-
-        location: "Gauteng, South Africa",
-
-        airport: "OR Tambo International",
-
-        image:
-        "https://i.postimg.cc/RhqFTSRx/DSC-0532.jpg",
-
-        description:
-        "9V-SJG is an Airbus A350-941 operated by Singapore Airlines. Built as MSN 629, this modern wide-body aircraft was delivered to Singapore Airlines on 11 July 2023 and is powered by two Rolls-Royce Trent XWB-84 engines. The aircraft forms part of Singapore Airlines' long-haul fleet, connecting Singapore with destinations across the globe.",
-
-        notes:
-        "9V-SJG captured departing from Runway 03L at O.R. Tambo International Airport, operating a Singapore Airlines service from Johannesburg to Singapore. The A350-900 climbs away from Johannesburg as it begins its long-haul journey to Singapore.",
-
-        likes: 0,
-
+    "9V-SJG": {
+        image: "https://i.postimg.cc/RhqFTSRx/DSC-0532.jpg",
         photos: [
-
             "https://i.postimg.cc/9Q6GGjmx/DSC-0540.jpg"
-
         ]
-
     },
 
+    "ZS-IWK": {
+        image: "https://i.postimg.cc/xCBZCgqz/DSC-0015-(1).jpg",
+        photos: []
+    },
 
-    {
-        id: 7,
+    "TC-LGB": {
+        image: "https://i.postimg.cc/xCd0BBjR/ZS-LKG-(1).jpg",
+        photos: []
+    },
 
-        registration: "ZS-IWK",
+    "A6-DDC": {
+        image: "https://i.postimg.cc/c4h7bVF5/DSC-0391.jpg",
+        photos: []
+    },
 
-        type: "Cessna 182P Skylane",
+    "ZS-SJO": {
+        image: "https://i.postimg.cc/yNgFWW7g/DSC-0363.jpg",
+        photos: []
+    },
 
-        shortType: "182P Skylane",
-
-        operator: "Private",
-
-        category: "general",
-
-        manufacturer: "Cessna Aircraft Company",
-
-        msn: "182-64295",
-
-        firstFlight: "N/A",
-
-        location: "Gauteng, South Africa",
-
-        airport: "Johannesburg Rand Airport",
-
-        image:
-        "https://i.postimg.cc/xCBZCgqz/DSC-0015-(1).jpg",
-
-        description:
-        "ZS-IWK is a Cessna 182P Skylane, a popular four-seat general aviation aircraft known for its versatility, reliability and distinctive high-wing design. The aircraft carries South African registration ZS-IWK and operates in the private aviation sector.",
-
-        notes:
-        "ZS-IWK captured taxiing toward the runway, preparing for departure. The Cessna 182's classic high-wing profile made for a great subject as it moved across the airport surface toward the runway.",
-
-        likes: 0,
-
+    "ZS-NGD": {
+        image: "https://i.postimg.cc/kgS8CHc7/DSC-0115.jpg",
         photos: [
-
+            "https://i.postimg.cc/BnQqJPsg/ZS-NGD.jpg"
         ]
-
     },
 
-   {
-        id: 8,
+    "ZT-RFT": {
+        image: "https://i.postimg.cc/3R6yvCrk/DSC-0088.jpg",
+        photos: []
+    },
 
-        registration: "TC-LGB",
+    "ZS-IOU": {
+        image: "https://i.postimg.cc/VkB714mp/DSC-0569.jpg",
+        photos: []
+    },
 
-        type: "Airbus A350-941",
-
-        shortType: "A350-941",
-
-        operator: "Turkish Airlines",
-
-        category: "commercial",
-
-        manufacturer: "Airbus",
-
-        msn: "421",
-
-        firstFlight: "June 2020",
-
-        location: "Gauteng, South Africa",
-
-        airport: "OR Tambo International",
-
-        image:
-        "https://i.postimg.cc/xCd0BBjR/ZS-LKG-(1).jpg",
-
-        description:
-        "Turkish Airlines Airbus A350-941, registration TC-LGB, captured on approach during the afternoon. The aircraft's distinctive Turkish Airlines livery and sleek A350 design make for a striking sight as it descends toward the airport.",
-
-        notes:
-        "Captured during an afternoon approach, this was a great opportunity to photograph the impressive A350-900 from a clean side-on angle. The warm afternoon light highlights the aircraft beautifully and brings out the details of the Turkish Airlines livery.",
-
-        likes: 0,
-
+    "A7-AOB": {
+        image: "https://i.postimg.cc/bw9jMQ5m/DSC-0313.jpg",
         photos: [
-
+            "https://i.postimg.cc/1z3bjbw9/DSC-0435.jpg"
         ]
-
     },
 
-   {
-        id: 9,
+    "5H-TCQ": {
+        image: "https://i.postimg.cc/65B2ghbq/DSC-0251.jpg",
+        photos: []
+    }
+
+};
+
+
+/* =========================================================
+   LOAD AIRCRAFT FROM SUPABASE
+========================================================= */
+
+async function loadAircraft() {
+
+    console.log("Loading SkyShotConner aircraft from Supabase...");
 
-        registration: "A6-DDC",
+    const { data, error } = await supabaseClient
+        .from("aircraft")
+        .select(`
+            id,
+            aircraft_type,
+            short_type,
+            registration,
+            operator,
+            category,
+            location,
+            airport,
+            manufacturer,
+            msn,
+            first_flight,
+            description,
+            notes
+        `)
+        .order("created_at", {
+            ascending: false
+        });
 
-        type: "Boeing 777F / 777-FFX",
 
-        shortType: "B77L",
+    /* -----------------------------------------------------
+       ERROR
+    ----------------------------------------------------- */
 
-        operator: "Etihad Cargo",
+    if (error) {
 
-        category: "commercial",
+        console.error(
+            "Supabase aircraft loading error:",
+            error
+        );
 
-        manufacturer: "Boeing",
+        /*
+           If Supabase fails, show a message rather than
+           silently displaying an empty gallery.
+        */
 
-        msn: "39691",
+        aircraftGrid.innerHTML = `
+            <div style="
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 60px 20px;
+            ">
+                <h3>Unable to load aircraft</h3>
 
-        firstFlight: "18 April 2013",
+                <p>
+                    Please try refreshing the page.
+                </p>
+            </div>
+        `;
 
-        location: "Gauteng, South Africa",
+        return;
 
-        airport: "OR Tambo International",
+    }
 
-        image:
-        "https://i.postimg.cc/c4h7bVF5/DSC-0391.jpg",
 
-        description:
-        "Etihad Cargo Boeing 777F, registration A6-DDC, captured on approach to Runway 03R during the afternoon. The aircraft is a Boeing 777-FFX, MSN 39691, operated by Etihad Cargo. Its large fuselage, distinctive freighter configuration and powerful GE90 engines make it an impressive sight on approach.",
+    /* -----------------------------------------------------
+       NO DATA
+    ----------------------------------------------------- */
 
-        notes:
-        "Captured during an afternoon approach to Runway 03R, this was a great opportunity to photograph Etihad Cargo's Boeing 777F in action. The aircraft's imposing size and unmistakable freighter profile make A6-DDC a particularly interesting subject for any aviation photographer.",
+    if (!data || data.length === 0) {
 
-        likes: 0,
+        console.warn(
+            "Supabase returned no aircraft."
+        );
 
-        photos: [
-              
-        ]
+        aircraftGrid.innerHTML = `
+            <div style="
+                grid-column: 1 / -1;
+                text-align: center;
+                padding: 60px 20px;
+            ">
+                <h3>No aircraft found</h3>
 
-    },
+                <p>
+                    Your aircraft database is currently empty.
+                </p>
+            </div>
+        `;
 
-   {
-        id: 10,
+        return;
 
-        registration: "ZS-SJO",
+    }
 
-        type: "Boeing 737-8BG",
 
-        shortType: "B77L",
+    /* -----------------------------------------------------
+       CONVERT SUPABASE DATA TO GALLERY FORMAT
+    ----------------------------------------------------- */
 
-        operator: "FlySafair - Springboks promotional livery",
+    aircraft = data.map(item => {
 
-        category: "commercial",
+        const media =
+            aircraftMedia[item.registration] || {
+                image: "",
+                photos: []
+            };
 
-        manufacturer: "Boeing",
 
-        msn: "32357",
+        return {
 
-        firstFlight: "1 August 2001",
+            id: item.id,
 
-        location: "Gauteng, South Africa",
+            registration:
+                item.registration || "",
 
-        airport: "OR Tambo International",
+            type:
+                item.aircraft_type || "",
 
-        image:
-        "https://i.postimg.cc/yNgFWW7g/DSC-0363.jpg",
+            shortType:
+                item.short_type || "",
 
-        description:
-        "FlySafair Boeing 737-8BG, registration ZS-SJO, captured on approach to Runway 03R. Wearing its distinctive Springboks promotional livery, this aircraft combines South African aviation with the country's iconic rugby identity. ZS-SJO is a veteran Boeing 737-800, having first flown in 2001 and previously serving with South African Airways and Mango before joining FlySafair.",
+            operator:
+                item.operator || "",
 
-        notes:
-        "Captured on approach to Runway 03R, ZS-SJO made for an excellent subject with its distinctive Springboks livery clearly visible. The combination of the classic 737-800 silhouette and the unmistakable South African colours made this a particularly enjoyable aircraft to photograph.",
+            category:
+                item.category || "general",
 
-        likes: 0,
+            manufacturer:
+                item.manufacturer || "",
 
-        photos: [
+            msn:
+                item.msn || "",
 
-        ]
+            firstFlight:
+                item.first_flight || "",
 
-    },
+            location:
+                item.location || "",
 
-   {
-    id: 11,
+            airport:
+                item.airport || "",
 
-    registration: "ZS-NGD",
+            description:
+                item.description || "",
 
-    type: "Boeing E75 Stearman",
+            notes:
+                item.notes || "",
 
-    shortType: "E75",
+            image:
+                media.image,
 
-    operator: "Phoebus Apollo Aviation",
+            photos:
+                media.photos
 
-    category: "general",
+        };
 
-    manufacturer: "Boeing",
+    });
 
-    msn: "75-5919",
 
-    firstFlight: "1942",
+    console.log(
+        `SkyShotConner: ${aircraft.length} aircraft loaded from Supabase.`
+    );
 
-    location: "Gauteng, South Africa",
 
-    airport: "OR Tambo International",
+    /* -----------------------------------------------------
+       DISPLAY GALLERY
+    ----------------------------------------------------- */
 
-    image:
-    "https://i.postimg.cc/kgS8CHc7/DSC-0115.jpg",
-
-    description:
-    "Boeing E75 Stearman ZS-NGD, a classic vintage biplane operated by Phoebus Apollo Aviation. Originally built in 1942, the Stearman is a historic aircraft renowned for its distinctive biplane design and role as a military trainer. Today, ZS-NGD continues to showcase the character and heritage of classic aviation.",
-
-    notes:
-    "Captured during an air-to-air (A2A) photography shoot from a Robinson R66. Positioned behind the pilot, I had a unique aerial perspective of ZS-NGD in flight, making this a particularly memorable photography opportunity.",
-
-    likes: 0,
-
-    photos: [
-           "https://i.postimg.cc/BnQqJPsg/ZS-NGD.jpg"
-    ]
-
-},
-
-   {
-    id: 12,
-
-    registration: "ZT-RFT",
-
-    type: "Airbus Helicopters H125",
-
-    shortType: "H125",
-
-    operator: "South African Police Service Air Wing",
-
-    category: "helicopter",
-
-    manufacturer: "Airbus Helicopters",
-
-    msn: "9335",
-
-    firstFlight: "2023",
-
-    location: "Gauteng, South Africa",
-
-    airport: "OR Tambo International",
-
-    image:
-    "https://i.postimg.cc/3R6yvCrk/DSC-0088.jpg",
-
-    description:
-    "South African Police Service Air Wing Airbus Helicopters H125, registration ZT-RFT. This modern light utility helicopter is part of the SAPS aviation fleet and is used to provide aerial support to police operations across South Africa. ZT-RFT has serial number 9335 and was accepted into SAPS service in September 2023.",
-
-    notes:
-    "Caught on departure from Rand Airport, ZT-RFT made for an exciting subject as it lifted off and headed into the skies. The departure provided a great opportunity to capture this distinctive SAPS Air Wing H125 in action.",
-
-    likes: 0,
-
-    photos: [
-
-    ]
-
-},
-
-   {
-    id: 13,
-
-    registration: "ZS-IOU",
-
-    type: "Piper PA-18-150 Super Cub",
-
-    shortType: "PA-18",
-
-    operator: "Private",
-
-    category: "general",
-
-    manufacturer: "Piper",
-
-    msn: "18-5248",
-
-    firstFlight: "1954",
-
-    location: "Gauteng, South Africa",
-
-    airport: "OR Tambo International",
-
-    image:
-    "https://i.postimg.cc/VkB714mp/DSC-0569.jpg",
-
-    description:
-    "Piper PA-18-150 Super Cub, registration ZS-IOU, is a classic light utility aircraft with a long history in South African aviation. Originally built as a PA-18A and later configured as a PA-18-150, ZS-IOU is a distinctive example of Piper's legendary Super Cub design, known for its rugged construction and excellent short-field capabilities. :contentReference[oaicite:0]{index=0}",
-
-    notes:
-    "Captured while taxiing towards the runway, giving me a great opportunity to photograph this classic Piper Super Cub as it prepared for departure.",
-
-    likes: 0,
-
-    photos: [
-
-    ]
-
-},
-
-   {
-    id: 14,
-
-    registration: "A7-AOB",
-
-    type: "Airbus A350-1041",
-
-    shortType: "A35K",
-
-    operator: "Qatar Airways",
-
-    category: "commercial",
-
-    manufacturer: "Airbus",
-
-    msn: "0438",
-
-    firstFlight: "2022",
-
-    location: "Gauteng, South Africa",
-
-    airport: "OR Tambo International",
-
-    image:
-    "https://i.postimg.cc/bw9jMQ5m/DSC-0313.jpg",
-
-    description:
-    "Qatar Airways Airbus A350-1041, registration A7-AOB, is a modern wide-body aircraft powered by two Rolls-Royce Trent XWB-97 engines. With construction number 0438, the aircraft was built in Toulouse and delivered to Qatar Airways in June 2023. A7-AOB operates long-haul international services, including flights between Johannesburg and Doha.",
-
-    notes:
-    "Captured during pushback and again as the aircraft rolled down the runway for departure. A7-AOB made an impressive subject with its distinctive Qatar Airways livery and sleek Airbus A350 profile clearly visible.",
-
-    likes: 0,
-
-    photos: [
-         "https://i.postimg.cc/1z3bjbw9/DSC-0435.jpg"
-    ]
-
-},
-
-   {
-    id: 15,
-
-    registration: "5H-TCQ",
-
-    type: "Boeing 737-9 MAX",
-
-    shortType: "B39M",
-
-    operator: "Air Tanzania",
-
-    category: "commercial",
-
-    manufacturer: "Boeing",
-
-    msn: "67791",
-
-    firstFlight: "2 February 2024",
-
-    location: "Gauteng, South Africa",
-
-    airport: "OR Tambo International",
-
-    image:
-    "https://i.postimg.cc/65B2ghbq/DSC-0251.jpg",
-
-    description:
-    "Air Tanzania Boeing 737-9 MAX, registration 5H-TCQ, is a modern narrow-body airliner named 'Ruaha National Park'. The aircraft, MSN 67791, was built at Boeing's Renton facility and first flew on 2 February 2024 before being delivered to Air Tanzania in March 2024. It operates regional and international services across Air Tanzania's network.",
-
-    notes:
-    "Captured while pulling into the gates, giving me a great opportunity to photograph 5H-TCQ as it arrived at OR Tambo International. The modern 737 MAX 9 made an excellent subject as it taxied into its parking position.",
-
-    likes: 0,
-
-    photos: [
-
-    ]
+    renderGallery(aircraft);
 
 }
-   
-];
+
+
+/* =========================================================
+   START DATABASE LOAD
+========================================================= */
+
+     loadAircraft();
 
 
 /* =========================================================
@@ -2768,12 +2443,6 @@ document.getElementById(
 ).textContent =
 new Date().getFullYear();
 
-
-/* =========================================================
-   INITIAL LOAD
-========================================================= */
-
-renderGallery(aircraft);
 
 </script>
    
