@@ -1636,104 +1636,23 @@ let aircraft = [];
 
 
 /* =========================================================
-   EXISTING PHOTOGRAPH LINKS
+   LOAD AIRCRAFT FROM SUPABASE
 ========================================================= */
 
-const aircraftMedia = {
-
-    "A7-HHH": {
-        image: "https://i.postimg.cc/XXSxRwkm/A7-HHH.jpg",
-        photos: []
-    },
-
-    "ZS-GAO": {
-        image: "https://i.postimg.cc/L4VnKW7f/DSC-0203.jpg",
-        photos: []
-    },
-
-    "ZS-LKG": {
-        image: "https://i.postimg.cc/m28jD8cs/ZS-LKG.jpg",
-        photos: []
-    },
-
-    "A7-ALP": {
-        image: "https://i.postimg.cc/sD6Pyx8R/DSC-0380.jpg",
-        photos: [
-            "https://i.postimg.cc/GpksBmMB/DSC-0426.jpg"
-        ]
-    },
-
-    "ZT-HDA": {
-        image: "https://i.postimg.cc/ZYwDQbTk/DSC-0202.jpg",
-        photos: []
-    },
-
-    "9V-SJG": {
-        image: "https://i.postimg.cc/RhqFTSRx/DSC-0532.jpg",
-        photos: [
-            "https://i.postimg.cc/9Q6GGjmx/DSC-0540.jpg"
-        ]
-    },
-
-    "ZS-IWK": {
-        image: "https://i.postimg.cc/xCBZCgqz/DSC-0015-(1).jpg",
-        photos: []
-    },
-
-    "TC-LGB": {
-        image: "https://i.postimg.cc/xCd0BBjR/ZS-LKG-(1).jpg",
-        photos: []
-    },
-
-    "A6-DDC": {
-        image: "https://i.postimg.cc/c4h7bVF5/DSC-0391.jpg",
-        photos: []
-    },
-
-    "ZS-SJO": {
-        image: "https://i.postimg.cc/yNgFWW7g/DSC-0363.jpg",
-        photos: []
-    },
-
-    "ZS-NGD": {
-        image: "https://i.postimg.cc/kgS8CHc7/DSC-0115.jpg",
-        photos: [
-            "https://i.postimg.cc/BnQqJPsg/ZS-NGD.jpg"
-        ]
-    },
-
-    "ZT-RFT": {
-        image: "https://i.postimg.cc/3R6yvCrk/DSC-0088.jpg",
-        photos: []
-    },
-
-    "ZS-IOU": {
-        image: "https://i.postimg.cc/VkB714mp/DSC-0569.jpg",
-        photos: []
-    },
-
-    "A7-AOB": {
-        image: "https://i.postimg.cc/bw9jMQ5m/DSC-0313.jpg",
-        photos: [
-            "https://i.postimg.cc/1z3bjbw9/DSC-0435.jpg"
-        ]
-    },
-
-    "5H-TCQ": {
-        image: "https://i.postimg.cc/65B2ghbq/DSC-0251.jpg",
-        photos: []
-    }
-
-};
-
-
 /* =========================================================
-   LOAD AIRCRAFT FROM SUPABASE
+   LOAD AIRCRAFT + PHOTOS FROM SUPABASE
 ========================================================= */
 
 async function loadAircraft() {
 
-    console.log("Loading SkyShotConner aircraft from Supabase...");
+    console.log(
+        "Loading SkyShotConner aircraft and photos from Supabase..."
+    );
+
+
+    /* =====================================================
+       LOAD AIRCRAFT
+    ===================================================== */
 
     const { data, error } = await supabaseClient
         .from("aircraft")
@@ -1757,9 +1676,9 @@ async function loadAircraft() {
         });
 
 
-    /* -----------------------------------------------------
-       ERROR
-    ----------------------------------------------------- */
+    /* =====================================================
+       AIRCRAFT ERROR
+    ===================================================== */
 
     if (error) {
 
@@ -1768,33 +1687,31 @@ async function loadAircraft() {
             error
         );
 
-        /*
-           If Supabase fails, show a message rather than
-           silently displaying an empty gallery.
-        */
-
         aircraftGrid.innerHTML = `
             <div style="
                 grid-column: 1 / -1;
                 text-align: center;
                 padding: 60px 20px;
             ">
-                <h3>Unable to load aircraft</h3>
+
+                <h3>
+                    Unable to load aircraft
+                </h3>
 
                 <p>
                     Please try refreshing the page.
                 </p>
+
             </div>
         `;
 
         return;
-
     }
 
 
-    /* -----------------------------------------------------
-       NO DATA
-    ----------------------------------------------------- */
+    /* =====================================================
+       NO AIRCRAFT
+    ===================================================== */
 
     if (!data || data.length === 0) {
 
@@ -1808,35 +1725,139 @@ async function loadAircraft() {
                 text-align: center;
                 padding: 60px 20px;
             ">
-                <h3>No aircraft found</h3>
+
+                <h3>
+                    No aircraft found
+                </h3>
 
                 <p>
                     Your aircraft database is currently empty.
                 </p>
+
             </div>
         `;
 
         return;
+    }
+
+
+    /* =====================================================
+       LOAD ALL PUBLISHED PHOTOS
+    ===================================================== */
+
+    const {
+        data: photoData,
+        error: photoError
+    } = await supabaseClient
+
+        .from("photos")
+
+        .select(`
+            id,
+            title,
+            description,
+            image_url,
+            thumbnail_url,
+            aircraft_id,
+            photo_date,
+            camera,
+            lens,
+            aperture,
+            shutter_speed,
+            iso,
+            featured,
+            published,
+            created_at
+        `)
+
+        .eq("published", true)
+
+        .order("created_at", {
+            ascending: true
+        });
+
+
+    /* =====================================================
+       PHOTO ERROR
+    ===================================================== */
+
+    if (photoError) {
+
+        console.error(
+            "Supabase photo loading error:",
+            photoError
+        );
 
     }
 
 
-    /* -----------------------------------------------------
-       CONVERT SUPABASE DATA TO GALLERY FORMAT
-    ----------------------------------------------------- */
+    /* =====================================================
+       ORGANISE PHOTOS BY AIRCRAFT
+    ===================================================== */
+
+    const photosByAircraft = {};
+
+
+    if (photoData) {
+
+        photoData.forEach(photo => {
+
+            if (!photosByAircraft[photo.aircraft_id]) {
+
+                photosByAircraft[photo.aircraft_id] = [];
+
+            }
+
+            photosByAircraft[photo.aircraft_id].push(
+                photo
+            );
+
+        });
+
+    }
+
+
+    /* =====================================================
+       CONVERT DATABASE DATA TO GALLERY FORMAT
+    ===================================================== */
 
     aircraft = data.map(item => {
 
-        const media =
-            aircraftMedia[item.registration] || {
-                image: "",
-                photos: []
-            };
+        const photos =
+            photosByAircraft[item.id] || [];
+
+
+        /*
+           Main photograph
+        */
+
+        const mainPhoto =
+            photos.length > 0
+                ? (
+                    photos[0].thumbnail_url ||
+                    photos[0].image_url
+                  )
+                : "";
+
+
+        /*
+           Additional photographs
+        */
+
+        const additionalPhotos =
+            photos
+                .slice(1)
+                .map(photo => (
+                    photo.image_url ||
+                    photo.thumbnail_url
+                ))
+                .filter(Boolean);
 
 
         return {
 
-            id: item.id,
+            id:
+                item.id,
 
             registration:
                 item.registration || "",
@@ -1874,21 +1895,51 @@ async function loadAircraft() {
             notes:
                 item.notes || "",
 
+            /*
+               NEW:
+               Images now come directly from Supabase.
+            */
+
             image:
-                media.image,
+                mainPhoto,
 
             photos:
-                media.photos
+                additionalPhotos,
+
+            /*
+               Keep the complete photo records available
+               for future features such as camera settings,
+               photo dates and featured images.
+            */
+
+            photoRecords:
+                photos
 
         };
 
     });
 
 
+    /* =====================================================
+       LOG DATABASE STATUS
+    ===================================================== */
+
     console.log(
-        `SkyShotConner: ${aircraft.length} aircraft loaded from Supabase.`
+        `SkyShotConner: ${aircraft.length} aircraft loaded.`
     );
 
+    console.log(
+        `SkyShotConner: ${photoData ? photoData.length : 0} published photos loaded.`
+    );
+
+
+    /* =====================================================
+       DISPLAY GALLERY
+    ===================================================== */
+
+    renderGallery(aircraft);
+
+}
 
     /* -----------------------------------------------------
        DISPLAY GALLERY
@@ -1961,15 +2012,51 @@ function renderGallery(list) {
 
             <div class="aircraft-photo">
 
+    ${
+        item.image
+            ? `
                 <img
                     src="${item.image}"
                     alt="${item.type} ${item.registration}"
                     loading="lazy"
                 >
+              `
+            : `
+                <div style="
+                    height: 100%;
+                    min-height: 220px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: #111;
+                    color: #aaa;
+                    text-align: center;
+                    padding: 20px;
+                ">
+                    <span>
+                        📷 Photo coming soon
+                    </span>
+                </div>
+              `
+    }
+
+    <div class="photo-count">
+        📷 ${
+            item.photoRecords
+                ? item.photoRecords.length
+                : 0
+        }
+    </div>
+
+</div>
 
                 <div class="photo-count">
-                    📷 ${item.photos.length}
-                </div>
+                 📷 ${
+                    item.photoRecords
+                    ? item.photoRecords.length
+                    : 0
+                     }
+                 </div>
 
             </div>
 
