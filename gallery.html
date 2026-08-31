@@ -1589,58 +1589,37 @@ SkyShotConner • Aviation Photography
 <script>
 
 /* =========================================================
-   AIRCRAFT DATABASE
+   SUPABASE AIRCRAFT + PHOTO DATABASE
 ========================================================= */
-
-/*
-   THESE ARE DEMO AIRCRAFT.
-
-   Later we can replace these with your real aircraft.
-
-   The dashboard will eventually create these records
-   automatically.
-*/
-async function testSupabaseConnection() {
-    const { data, error } = await supabaseClient
-        .from("aircraft")
-        .select("*")
-        .limit(5);
-
-    if (error) {
-        console.error("Supabase connection error:", error);
-        return;
-    }
-
-    console.log("Supabase aircraft data:", data);
-}
-
-testSupabaseConnection();
-
-/* =========================================================
-   AIRCRAFT DATABASE — SUPABASE
-========================================================= */
-
-/*
-   Aircraft information now comes from Supabase.
-
-   We are temporarily keeping the existing photograph URLs
-   here while we connect the photos table in the next step.
-
-   This means:
-   - Aircraft information = Supabase
-   - Main image = existing image URL
-   - Additional photos = existing photo URLs
-*/
 
 let aircraft = [];
 
 
 /* =========================================================
-   LOAD AIRCRAFT FROM SUPABASE
+   ELEMENTS
 ========================================================= */
 
+const aircraftGrid =
+    document.getElementById("aircraftGrid");
+
+const search =
+    document.getElementById("search");
+
+const filters =
+    document.querySelectorAll(".filter");
+
+const noResults =
+    document.getElementById("noResults");
+
+const galleryView =
+    document.getElementById("galleryView");
+
+const aircraftDetail =
+    document.getElementById("aircraftDetail");
+
+
 /* =========================================================
-   LOAD AIRCRAFT + PHOTOS FROM SUPABASE
+   LOAD AIRCRAFT + PHOTOS
 ========================================================= */
 
 async function loadAircraft() {
@@ -1651,34 +1630,31 @@ async function loadAircraft() {
 
 
     /* =====================================================
-       LOAD AIRCRAFT
+       AIRCRAFT
     ===================================================== */
 
-    const { data, error } = await supabaseClient
+    const {
+        data,
+        error
+    } = await supabaseClient
+
         .from("aircraft")
+
         .select(`
             id,
             aircraft_type,
-            short_type,
             registration,
             operator,
-            category,
             location,
-            airport,
-            manufacturer,
-            msn,
-            first_flight,
-            description,
-            notes
+            notes,
+            created_at,
+            updated_at
         `)
+
         .order("created_at", {
             ascending: false
         });
 
-
-    /* =====================================================
-       AIRCRAFT ERROR
-    ===================================================== */
 
     if (error) {
 
@@ -1693,15 +1669,11 @@ async function loadAircraft() {
                 text-align: center;
                 padding: 60px 20px;
             ">
-
-                <h3>
-                    Unable to load aircraft
-                </h3>
+                <h3>Unable to load aircraft</h3>
 
                 <p>
                     Please try refreshing the page.
                 </p>
-
             </div>
         `;
 
@@ -1709,15 +1681,7 @@ async function loadAircraft() {
     }
 
 
-    /* =====================================================
-       NO AIRCRAFT
-    ===================================================== */
-
     if (!data || data.length === 0) {
-
-        console.warn(
-            "Supabase returned no aircraft."
-        );
 
         aircraftGrid.innerHTML = `
             <div style="
@@ -1725,15 +1689,11 @@ async function loadAircraft() {
                 text-align: center;
                 padding: 60px 20px;
             ">
-
-                <h3>
-                    No aircraft found
-                </h3>
+                <h3>No aircraft found</h3>
 
                 <p>
                     Your aircraft database is currently empty.
                 </p>
-
             </div>
         `;
 
@@ -1742,7 +1702,7 @@ async function loadAircraft() {
 
 
     /* =====================================================
-       LOAD ALL PUBLISHED PHOTOS
+       PHOTOS
     ===================================================== */
 
     const {
@@ -1759,6 +1719,11 @@ async function loadAircraft() {
             image_url,
             thumbnail_url,
             aircraft_id,
+            aircraft_type,
+            registration,
+            operator,
+            location,
+            category,
             photo_date,
             camera,
             lens,
@@ -1767,7 +1732,8 @@ async function loadAircraft() {
             iso,
             featured,
             published,
-            created_at
+            created_at,
+            updated_at
         `)
 
         .eq("published", true)
@@ -1776,10 +1742,6 @@ async function loadAircraft() {
             ascending: true
         });
 
-
-    /* =====================================================
-       PHOTO ERROR
-    ===================================================== */
 
     if (photoError) {
 
@@ -1792,7 +1754,7 @@ async function loadAircraft() {
 
 
     /* =====================================================
-       ORGANISE PHOTOS BY AIRCRAFT
+       GROUP PHOTOS BY AIRCRAFT
     ===================================================== */
 
     const photosByAircraft = {};
@@ -1801,6 +1763,10 @@ async function loadAircraft() {
     if (photoData) {
 
         photoData.forEach(photo => {
+
+            if (!photo.aircraft_id) {
+                return;
+            }
 
             if (!photosByAircraft[photo.aircraft_id]) {
 
@@ -1818,7 +1784,7 @@ async function loadAircraft() {
 
 
     /* =====================================================
-       CONVERT DATABASE DATA TO GALLERY FORMAT
+       BUILD GALLERY DATA
     ===================================================== */
 
     aircraft = data.map(item => {
@@ -1827,30 +1793,23 @@ async function loadAircraft() {
             photosByAircraft[item.id] || [];
 
 
-        /*
-           Main photograph
-        */
-
         const mainPhoto =
             photos.length > 0
                 ? (
                     photos[0].thumbnail_url ||
-                    photos[0].image_url
-                  )
+                    photos[0].image_url ||
+                    ""
+                )
                 : "";
 
-
-        /*
-           Additional photographs
-        */
 
         const additionalPhotos =
             photos
                 .slice(1)
-                .map(photo => (
+                .map(photo =>
                     photo.image_url ||
                     photo.thumbnail_url
-                ))
+                )
                 .filter(Boolean);
 
 
@@ -1865,52 +1824,23 @@ async function loadAircraft() {
             type:
                 item.aircraft_type || "",
 
-            shortType:
-                item.short_type || "",
-
             operator:
                 item.operator || "",
-
-            category:
-                item.category || "general",
-
-            manufacturer:
-                item.manufacturer || "",
-
-            msn:
-                item.msn || "",
-
-            firstFlight:
-                item.first_flight || "",
 
             location:
                 item.location || "",
 
-            airport:
-                item.airport || "",
-
-            description:
-                item.description || "",
-
             notes:
                 item.notes || "",
 
-            /*
-               NEW:
-               Images now come directly from Supabase.
-            */
+            description:
+                item.notes || "",
 
             image:
                 mainPhoto,
 
             photos:
                 additionalPhotos,
-
-            /*
-               Keep the complete photo records available
-               for future features such as camera settings,
-               photo dates and featured images.
-            */
 
             photoRecords:
                 photos
@@ -1920,64 +1850,20 @@ async function loadAircraft() {
     });
 
 
-    /* =====================================================
-       LOG DATABASE STATUS
-    ===================================================== */
-
     console.log(
         `SkyShotConner: ${aircraft.length} aircraft loaded.`
     );
 
     console.log(
-        `SkyShotConner: ${photoData ? photoData.length : 0} published photos loaded.`
+        `SkyShotConner: ${
+            photoData ? photoData.length : 0
+        } published photos loaded.`
     );
 
 
-    /* =====================================================
-       DISPLAY GALLERY
-    ===================================================== */
-
     renderGallery(aircraft);
 
 }
-
-    /* -----------------------------------------------------
-       DISPLAY GALLERY
-    ----------------------------------------------------- */
-
-    renderGallery(aircraft);
-
-}
-
-
-/* =========================================================
-   START DATABASE LOAD
-========================================================= */
-
-     loadAircraft();
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const aircraftGrid =
-document.getElementById("aircraftGrid");
-
-const search =
-document.getElementById("search");
-
-const filters =
-document.querySelectorAll(".filter");
-
-const noResults =
-document.getElementById("noResults");
-
-const galleryView =
-document.getElementById("galleryView");
-
-const aircraftDetail =
-document.getElementById("aircraftDetail");
 
 
 /* =========================================================
@@ -1988,6 +1874,7 @@ function renderGallery(list) {
 
     aircraftGrid.innerHTML = "";
 
+
     if (list.length === 0) {
 
         noResults.style.display = "block";
@@ -1996,67 +1883,62 @@ function renderGallery(list) {
 
     }
 
+
     noResults.style.display = "none";
 
 
     list.forEach(item => {
 
         const card =
-        document.createElement("article");
+            document.createElement("article");
+
 
         card.className =
-        "aircraft-card";
+            "aircraft-card";
+
+
+        const photoCount =
+            item.photoRecords
+                ? item.photoRecords.length
+                : 0;
 
 
         card.innerHTML = `
 
             <div class="aircraft-photo">
 
-    ${
-        item.image
-            ? `
-                <img
-                    src="${item.image}"
-                    alt="${item.type} ${item.registration}"
-                    loading="lazy"
-                >
-              `
-            : `
-                <div style="
-                    height: 100%;
-                    min-height: 220px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: #111;
-                    color: #aaa;
-                    text-align: center;
-                    padding: 20px;
-                ">
-                    <span>
-                        📷 Photo coming soon
-                    </span>
-                </div>
-              `
-    }
+                ${
+                    item.image
+                        ? `
+                            <img
+                                src="${item.image}"
+                                alt="${item.type} ${item.registration}"
+                                loading="lazy"
+                            >
+                          `
+                        : `
+                            <div style="
+                                height: 100%;
+                                min-height: 220px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                background: #111;
+                                color: #aaa;
+                                text-align: center;
+                                padding: 20px;
+                            ">
+                                <span>
+                                    📷 Photo coming soon
+                                </span>
+                            </div>
+                          `
+                }
 
-    <div class="photo-count">
-        📷 ${
-            item.photoRecords
-                ? item.photoRecords.length
-                : 0
-        }
-    </div>
-
-</div>
 
                 <div class="photo-count">
-                 📷 ${
-                    item.photoRecords
-                    ? item.photoRecords.length
-                    : 0
-                     }
-                 </div>
+                    📷 ${photoCount}
+                </div>
 
             </div>
 
@@ -2067,9 +1949,11 @@ function renderGallery(list) {
                     ${item.registration}
                 </div>
 
+
                 <div class="aircraft-type">
                     ${item.type}
                 </div>
+
 
                 <div class="aircraft-operator">
                     ${item.operator}
@@ -2079,7 +1963,7 @@ function renderGallery(list) {
                 <div class="aircraft-meta">
 
                     <span>
-                        ${item.airport}
+                        ${item.location || "Unknown location"}
                     </span>
 
                     <span>
@@ -2107,7 +1991,7 @@ function renderGallery(list) {
 
 
 /* =========================================================
-   FILTER / SEARCH
+   SEARCH + FILTER
 ========================================================= */
 
 let currentFilter = "all";
@@ -2116,39 +2000,34 @@ let currentFilter = "all";
 function filterGallery() {
 
     const query =
-    search.value
-    .toLowerCase()
-    .trim();
+        search.value
+            .toLowerCase()
+            .trim();
 
 
     const results =
-    aircraft.filter(item => {
+        aircraft.filter(item => {
 
-        const matchesFilter =
-        currentFilter === "all" ||
-        item.category === currentFilter;
-
-
-        const searchable =
-        `
-        ${item.registration}
-        ${item.type}
-        ${item.operator}
-        ${item.location}
-        ${item.airport}
-        ${item.manufacturer}
-        `
-        .toLowerCase();
+            const matchesFilter =
+                currentFilter === "all";
 
 
-        const matchesSearch =
-        !query ||
-        searchable.includes(query);
+            const searchable = `
+                ${item.registration}
+                ${item.type}
+                ${item.operator}
+                ${item.location}
+            `.toLowerCase();
 
 
-        return matchesFilter && matchesSearch;
+            const matchesSearch =
+                !query ||
+                searchable.includes(query);
 
-    });
+
+            return matchesFilter && matchesSearch;
+
+        });
 
 
     renderGallery(results);
@@ -2166,10 +2045,28 @@ filters.forEach(button => {
                 btn.classList.remove("active")
             );
 
+
             button.classList.add("active");
 
+
             currentFilter =
-            button.dataset.filter;
+                button.dataset.filter;
+
+
+            /*
+               Your current aircraft table does not contain
+               a category column, so until we add one to the
+               aircraft table, only "All" can reliably filter.
+            */
+
+            if (currentFilter !== "all") {
+
+                console.warn(
+                    "Category filtering requires a category column in the aircraft table."
+                );
+
+            }
+
 
             filterGallery();
 
@@ -2191,59 +2088,102 @@ search.addEventListener(
 
 async function openAircraft(id) {
 
-    const item = aircraft.find(
-        aircraftItem => aircraftItem.id === id
-    );
+    const item =
+        aircraft.find(
+            aircraftItem =>
+                aircraftItem.id === id
+        );
 
-    if (!item) return;
+
+    if (!item) {
+        return;
+    }
 
 
     /* =====================================================
-       SHOW BASIC AIRCRAFT INFORMATION
+       BASIC INFORMATION
     ===================================================== */
 
-    document.getElementById("detailRegistration").textContent =
+    document.getElementById(
+        "detailRegistration"
+    ).textContent =
         item.registration;
 
-    document.getElementById("detailType").textContent =
+
+    document.getElementById(
+        "detailType"
+    ).textContent =
         item.type;
 
-    document.getElementById("detailOperator").textContent =
+
+    document.getElementById(
+        "detailOperator"
+    ).textContent =
         item.operator;
 
-    document.getElementById("detailDescription").textContent =
+
+    document.getElementById(
+        "detailDescription"
+    ).textContent =
         item.description;
 
-    document.getElementById("detailManufacturer").textContent =
-        item.manufacturer;
 
-    document.getElementById("detailAircraftType").textContent =
-        item.shortType;
+    document.getElementById(
+        "detailManufacturer"
+    ).textContent =
+        "—";
 
-    document.getElementById("detailMSN").textContent =
-        item.msn;
 
-    document.getElementById("detailFirstFlight").textContent =
-        item.firstFlight;
+    document.getElementById(
+        "detailAircraftType"
+    ).textContent =
+        item.type;
 
-    document.getElementById("detailLocation").textContent =
+
+    document.getElementById(
+        "detailMSN"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "detailFirstFlight"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "detailLocation"
+    ).textContent =
         item.location;
 
-    document.getElementById("detailAirport").textContent =
-        item.airport;
 
-    document.getElementById("detailAbout").textContent =
+    document.getElementById(
+        "detailAirport"
+    ).textContent =
+        "—";
+
+
+    document.getElementById(
+        "detailAbout"
+    ).textContent =
         item.description;
 
-    document.getElementById("detailNotes").textContent =
-        item.notes;
+
+    document.getElementById(
+        "detailNotes"
+    ).textContent =
+        item.notes || "No photographer notes available.";
 
 
     /* =====================================================
-       GET PHOTOS FROM SUPABASE
+       GET PHOTOS
     ===================================================== */
 
-    const { data: photos, error } = await supabaseClient
+    const {
+        data: photos,
+        error
+    } = await supabaseClient
 
         .from("photos")
 
@@ -2270,10 +2210,6 @@ async function openAircraft(id) {
         });
 
 
-    /* =====================================================
-       PHOTO ERROR
-    ===================================================== */
-
     if (error) {
 
         console.error(
@@ -2284,54 +2220,15 @@ async function openAircraft(id) {
     }
 
 
-    /* =====================================================
-       COMBINE DATABASE PHOTOS
-       WITH EXISTING FALLBACK PHOTOS
-    ===================================================== */
-
-    let databasePhotos = [];
-
-    if (photos && photos.length > 0) {
-
-        databasePhotos = photos
-            .map(photo => photo.image_url)
-            .filter(Boolean);
-
-    }
-
-
-    /*
-       Existing image fallback.
-
-       This means your gallery won't break while we
-       gradually move all your photographs into Supabase.
-    */
-
-    const fallbackPhotos = [];
-
-    if (item.image) {
-        fallbackPhotos.push(item.image);
-    }
-
-    if (item.photos && item.photos.length > 0) {
-
-        fallbackPhotos.push(
-            ...item.photos
-        );
-
-    }
-
-
-    /*
-       Prefer Supabase photographs.
-
-       If there aren't any yet, use the old photographs.
-    */
-
     const allPhotos =
-        databasePhotos.length > 0
-            ? databasePhotos
-            : fallbackPhotos;
+        photos
+            ? photos
+                .map(photo =>
+                    photo.image_url ||
+                    photo.thumbnail_url
+                )
+                .filter(Boolean)
+            : [];
 
 
     /* =====================================================
@@ -2339,7 +2236,9 @@ async function openAircraft(id) {
     ===================================================== */
 
     const detailImage =
-        document.getElementById("detailImage");
+        document.getElementById(
+            "detailImage"
+        );
 
 
     if (allPhotos.length > 0) {
@@ -2350,6 +2249,15 @@ async function openAircraft(id) {
         detailImage.alt =
             `${item.type} ${item.registration}`;
 
+    } else {
+
+        detailImage.removeAttribute(
+            "src"
+        );
+
+        detailImage.alt =
+            "No aircraft photograph available";
+
     }
 
 
@@ -2358,56 +2266,58 @@ async function openAircraft(id) {
     ===================================================== */
 
     const photoStrip =
-        document.getElementById("photoStrip");
+        document.getElementById(
+            "photoStrip"
+        );
 
 
     photoStrip.innerHTML = "";
 
 
-    /*
-       Don't display the main image twice.
-    */
+    allPhotos
+        .slice(1)
+        .forEach(photo => {
 
-    const additionalPhotos =
-        allPhotos.slice(1);
-
-
-    additionalPhotos.forEach(photo => {
-
-        const wrapper =
-            document.createElement("div");
+            const wrapper =
+                document.createElement("div");
 
 
-        wrapper.className =
-            "photo-strip-item";
+            wrapper.className =
+                "photo-strip-item";
 
 
-        const image =
-            document.createElement("img");
+            const image =
+                document.createElement("img");
 
 
-        image.src =
-            photo;
+            image.src =
+                photo;
 
 
-        image.alt =
-            `${item.type} ${item.registration}`;
+            image.alt =
+                `${item.type} ${item.registration}`;
 
 
-        wrapper.appendChild(image);
+            image.loading =
+                "lazy";
 
 
-        wrapper.addEventListener(
-            "click",
-            () => openLightbox(photo)
-        );
+            wrapper.appendChild(
+                image
+            );
 
 
-        photoStrip.appendChild(
-            wrapper
-        );
+            wrapper.addEventListener(
+                "click",
+                () => openLightbox(photo)
+            );
 
-    });
+
+            photoStrip.appendChild(
+                wrapper
+            );
+
+        });
 
 
     /* =====================================================
@@ -2415,12 +2325,18 @@ async function openAircraft(id) {
     ===================================================== */
 
     const likeButton =
-        document.getElementById("likeButton");
+        document.getElementById(
+            "likeButton"
+        );
+
+
+    const likeKey =
+        `liked-aircraft-${item.id}`;
 
 
     const liked =
         localStorage.getItem(
-            `liked-aircraft-${item.id}`
+            likeKey
         );
 
 
@@ -2447,15 +2363,15 @@ async function openAircraft(id) {
 
     likeButton.onclick = () => {
 
-        const key =
-            `liked-aircraft-${item.id}`;
-
-
         if (
-            localStorage.getItem(key)
+            localStorage.getItem(
+                likeKey
+            )
         ) {
 
-            localStorage.removeItem(key);
+            localStorage.removeItem(
+                likeKey
+            );
 
             likeButton.classList.remove(
                 "liked"
@@ -2467,7 +2383,7 @@ async function openAircraft(id) {
         } else {
 
             localStorage.setItem(
-                key,
+                likeKey,
                 "true"
             );
 
@@ -2484,7 +2400,7 @@ async function openAircraft(id) {
 
 
     /* =====================================================
-       SHOW DETAIL
+       SHOW DETAIL PAGE
     ===================================================== */
 
     galleryView.style.display =
@@ -2509,23 +2425,27 @@ async function openAircraft(id) {
 ========================================================= */
 
 document
-.getElementById("backButton")
-.addEventListener(
-    "click",
-    () => {
+    .getElementById("backButton")
+    .addEventListener(
+        "click",
+        () => {
 
-        aircraftDetail.classList.remove("active");
+            aircraftDetail.classList.remove(
+                "active"
+            );
 
-        galleryView.style.display =
-        "block";
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+            galleryView.style.display =
+                "block";
 
-    }
-);
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+    );
 
 
 /* =========================================================
@@ -2533,41 +2453,57 @@ document
 ========================================================= */
 
 const lightbox =
-document.getElementById("lightbox");
+    document.getElementById(
+        "lightbox"
+    );
+
 
 const lightboxImage =
-document.getElementById("lightboxImage");
+    document.getElementById(
+        "lightboxImage"
+    );
 
 
 function openLightbox(image) {
 
     lightboxImage.src =
-    image;
+        image;
 
-    lightbox.classList.add("active");
+
+    lightbox.classList.add(
+        "active"
+    );
+
 
     document.body.style.overflow =
-    "hidden";
+        "hidden";
 
 }
 
 
 function closeLightbox() {
 
-    lightbox.classList.remove("active");
+    lightbox.classList.remove(
+        "active"
+    );
+
+
+    lightboxImage.src =
+        "";
+
 
     document.body.style.overflow =
-    "";
+        "";
 
 }
 
 
 document
-.getElementById("lightboxClose")
-.addEventListener(
-    "click",
-    closeLightbox
-);
+    .getElementById("lightboxClose")
+    .addEventListener(
+        "click",
+        closeLightbox
+    );
 
 
 lightbox.addEventListener(
@@ -2607,10 +2543,15 @@ document.addEventListener(
 ========================================================= */
 
 const menu =
-document.getElementById("menu");
+    document.getElementById(
+        "menu"
+    );
+
 
 const navLinks =
-document.getElementById("navLinks");
+    document.getElementById(
+        "navLinks"
+    );
 
 
 menu.addEventListener(
@@ -2632,8 +2573,14 @@ menu.addEventListener(
 document.getElementById(
     "year"
 ).textContent =
-new Date().getFullYear();
+    new Date().getFullYear();
 
+
+/* =========================================================
+   START
+========================================================= */
+
+loadAircraft();
 
 </script>
    
