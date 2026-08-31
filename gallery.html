@@ -445,20 +445,18 @@ header {
 
 .aircraft-photo {
     position: relative;
-
-    aspect-ratio: 16 / 10;
-
+    width: 100%;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
-
-    background: #0a0d12;
+    background: #111;
 }
 
 .aircraft-photo img {
     width: 100%;
     height: 100%;
-
-    object-fit: cover;
-
+    display: block;
+    object-fit: contain;
+    object-position: center;
     transition: .5s;
 }
 
