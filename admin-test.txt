@@ -1,0 +1,2 @@
+SkyShotConner Admin Dashboard write test
+Created by ChatGPT GitHub integration.
