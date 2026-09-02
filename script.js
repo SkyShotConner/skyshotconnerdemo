@@ -2,15 +2,18 @@
    SKYSHOTCONNER — HOMEPAGE JAVASCRIPT
    ==========================================
 
-   The homepage now uses Supabase as the single source
+   The homepage uses Supabase as the single source
    of truth for aircraft and published photographs.
+
+   This file also loads Supabase itself when the homepage
+   does not already have supabase-config.js available.
 */
 
 (function () {
     "use strict";
 
-    /* supabase-config.js defines the shared client before this file. */
-    const client = typeof supabaseClient !== "undefined" ? supabaseClient : null;
+    const SUPABASE_URL = "https://mlvbfdyahgszuwtgxmes.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_l4ZBZi1Fxy_AwYVD2KDxiA_FnYNvp2z";
 
     /* ------------------------------------------
        SAFETY HELPERS
@@ -40,6 +43,59 @@
     function displayValue(value, fallback = "—") {
         const text = String(value ?? "").trim();
         return text || fallback;
+    }
+
+    /* ------------------------------------------
+       SUPABASE LOADER
+    ------------------------------------------ */
+
+    function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+            const existing = document.querySelector(`script[src="${src}"]`);
+
+            if (existing) {
+                if (existing.dataset.loaded === "true") {
+                    resolve();
+                    return;
+                }
+
+                existing.addEventListener("load", resolve, { once: true });
+                existing.addEventListener("error", reject, { once: true });
+                return;
+            }
+
+            const script = document.createElement("script");
+            script.src = src;
+            script.async = false;
+
+            script.addEventListener("load", function () {
+                script.dataset.loaded = "true";
+                resolve();
+            }, { once: true });
+
+            script.addEventListener("error", reject, { once: true });
+            document.head.appendChild(script);
+        });
+    }
+
+    async function getSupabaseClient() {
+        /* Reuse the existing shared client when gallery/config loaded it. */
+        if (typeof supabaseClient !== "undefined") {
+            return supabaseClient;
+        }
+
+        /* The homepage historically did not load Supabase scripts. */
+        if (!window.supabase || typeof window.supabase.createClient !== "function") {
+            await loadScript(
+                "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+            );
+        }
+
+        if (!window.supabase || typeof window.supabase.createClient !== "function") {
+            throw new Error("Supabase library could not be loaded.");
+        }
+
+        return window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
     }
 
     /* ------------------------------------------
@@ -79,6 +135,23 @@
                 menuButton.setAttribute("aria-label", "Open navigation");
             });
         });
+    }
+
+    /* Add safe target behavior to external links. */
+    document.querySelectorAll('a[target="_blank"]').forEach(function (link) {
+        const rel = new Set((link.getAttribute("rel") || "").split(/\s+/).filter(Boolean));
+        rel.add("noopener");
+        rel.add("noreferrer");
+        link.setAttribute("rel", [...rel].join(" "));
+    });
+
+    /* Fix the legacy Instagram URL without requiring an HTML rewrite. */
+    const instagramLink = document.querySelector(
+        'a[href="https://www.instagram.com/@skyshotconner"]'
+    );
+
+    if (instagramLink) {
+        instagramLink.href = "https://www.instagram.com/skyshotconner";
     }
 
     /* ------------------------------------------
@@ -229,7 +302,7 @@
         }
     }
 
-    async function loadAircraft() {
+    async function loadAircraft(client) {
         if (!aircraftBody || !client) return;
 
         aircraftBody.innerHTML = `
@@ -382,7 +455,7 @@
         filterHomepagePhotos(activeFilter ? activeFilter.dataset.filter : "all");
     }
 
-    async function loadLatestShots() {
+    async function loadLatestShots(client) {
         if (!galleryGrid || !client) return;
 
         const { data: photos, error: photoError } = await client
@@ -431,13 +504,24 @@
        INITIALISE
     ------------------------------------------ */
 
-    if (client) {
-        loadAircraft();
-        loadLatestShots();
-    } else {
-        console.warn(
-            "SkyShotConner: supabaseClient was not found. " +
-            "Make sure supabase-config.js loads before script.js."
-        );
+    async function initialise() {
+        try {
+            const client = await getSupabaseClient();
+
+            await Promise.all([
+                loadAircraft(client),
+                loadLatestShots(client)
+            ]);
+        } catch (error) {
+            console.error("SkyShotConner homepage initialisation failed:", error);
+
+            if (aircraftBody && emptyState) {
+                aircraftBody.innerHTML = "";
+                emptyState.textContent = "The aircraft database is temporarily unavailable.";
+                emptyState.style.display = "block";
+            }
+        }
     }
+
+    initialise();
 })();
