@@ -9,7 +9,8 @@
 (function () {
     "use strict";
 
-    const client = window.supabaseClient;
+    /* supabase-config.js defines the shared client before this file. */
+    const client = typeof supabaseClient !== "undefined" ? supabaseClient : null;
 
     /* ------------------------------------------
        SAFETY HELPERS
@@ -64,11 +65,7 @@
         menuButton.addEventListener("click", function () {
             const isOpen = navigation.classList.toggle("open");
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                String(isOpen)
-            );
-
+            menuButton.setAttribute("aria-expanded", String(isOpen));
             menuButton.setAttribute(
                 "aria-label",
                 isOpen ? "Close navigation" : "Open navigation"
@@ -100,10 +97,7 @@
     }
 
     /* ------------------------------------------
-       GALLERY FILTERS
-
-       Uses event delegation so dynamically loaded
-       homepage photographs are filtered correctly.
+       HOMEPAGE GALLERY FILTERS
     ------------------------------------------ */
 
     const galleryGrid = document.querySelector("#galleryGrid");
@@ -166,8 +160,7 @@
             aircraftSearch ? aircraftSearch.value : ""
         );
 
-        const selectedType =
-            typeFilter ? typeFilter.value : "all";
+        const selectedType = typeFilter ? typeFilter.value : "all";
 
         const filtered = aircraftRecords.filter(function (record) {
             const searchableText = [
@@ -189,18 +182,11 @@
                 .toLowerCase();
 
             const matchesSearch = searchableText.includes(searchText);
-
             const category = aircraftCategory(record);
-            const type = firstValue(
-                record.category,
-                record.type,
-                ""
-            );
 
             const matchesType =
                 selectedType === "all" ||
-                category === selectedType ||
-                type === selectedType;
+                category === selectedType;
 
             return matchesSearch && matchesType;
         });
@@ -244,17 +230,7 @@
     }
 
     async function loadAircraft() {
-        if (!aircraftBody) return;
-
-        if (!client) {
-            console.error("Supabase client is unavailable.");
-            aircraftBody.innerHTML = "";
-            if (emptyState) {
-                emptyState.textContent = "Aircraft database is temporarily unavailable.";
-                emptyState.style.display = "block";
-            }
-            return;
-        }
+        if (!aircraftBody || !client) return;
 
         aircraftBody.innerHTML = `
             <tr>
@@ -303,7 +279,6 @@
         );
 
         const category = normalise(raw);
-
         const categories = [];
 
         if (category.includes("commercial") || category.includes("airliner")) {
@@ -364,10 +339,7 @@
         galleryGrid.innerHTML = photos.map(function (photo, index) {
             const aircraft = aircraftMap.get(photo.aircraft_id) || null;
             const categories = photoCategory(photo, aircraft);
-            const imageUrl = firstValue(
-                photo.thumbnail_url,
-                photo.image_url
-            );
+            const imageUrl = firstValue(photo.thumbnail_url, photo.image_url);
 
             const title = firstValue(
                 photo.title,
@@ -411,12 +383,7 @@
     }
 
     async function loadLatestShots() {
-        if (!galleryGrid) return;
-
-        if (!client) {
-            console.error("Supabase client is unavailable.");
-            return;
-        }
+        if (!galleryGrid || !client) return;
 
         const { data: photos, error: photoError } = await client
             .from("photos")
@@ -473,5 +440,4 @@
             "Make sure supabase-config.js loads before script.js."
         );
     }
-
 })();
