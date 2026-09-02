@@ -10,8 +10,10 @@ const supabaseClient = window.supabase.createClient(
 
 /* =========================================================
    AIRCRAFT PROFILE ENHANCEMENTS
-   Adds Previous Operator to the existing aircraft profile
-   without changing the main gallery logic.
+   Adds Previous Operator to the existing aircraft profile.
+   The observer is deliberately limited to aircraft-detail
+   changes so updating the displayed value cannot trigger an
+   infinite MutationObserver loop.
 ========================================================= */
 
 (function () {
@@ -81,17 +83,38 @@ const supabaseClient = window.supabase.createClient(
     }
 
 
-    const observer = new MutationObserver(() => {
+    const observer = new MutationObserver(mutations => {
 
         const detail = document.getElementById("aircraftDetail");
+        const registrationElement = document.getElementById("detailRegistration");
 
-        if (
-            detail &&
-            detail.classList.contains("active")
-        ) {
+        if (!detail || !detail.classList.contains("active")) return;
 
+        const relevantChange = mutations.some(mutation => {
+
+            /* Run when the aircraft detail section becomes active. */
+            if (
+                mutation.type === "attributes" &&
+                mutation.target === detail &&
+                mutation.attributeName === "class"
+            ) {
+                return true;
+            }
+
+            /* Run when openAircraft() changes the registration. */
+            if (
+                mutation.type === "childList" &&
+                mutation.target === registrationElement
+            ) {
+                return true;
+            }
+
+            return false;
+
+        });
+
+        if (relevantChange) {
             addPreviousOperatorField();
-
         }
 
     });
@@ -105,6 +128,7 @@ const supabaseClient = window.supabase.createClient(
 
         observer.observe(detail, {
             attributes: true,
+            attributeFilter: ["class"],
             childList: true,
             subtree: true
         });
