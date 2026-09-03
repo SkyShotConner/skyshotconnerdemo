@@ -16,6 +16,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
+          import re
 
           admin = Path('admin.html')
           if admin.exists():
@@ -71,11 +72,11 @@ jobs:
           cfg = Path('supabase-config.js')
           if cfg.exists():
               s = cfg.read_text(encoding='utf-8')
-              import re
-              s2 = re.sub(r'\n\s*addConstructionBanner\(\);', '', s, count=1)
-              if s2 == s and 'siteConstructionBanner' in s:
-                  s2 = s.replace('function addConstructionBanner(){', 'function addConstructionBanner(){\n        return; // Construction banner retired.', 1)
-              cfg.write_text(s2, encoding='utf-8')
+              s2 = s.replace('addConstructionBanner();', '')
+              if 'siteConstructionBanner' in s2 and 'function initialise()' in s2:
+                  s2 = s2.replace('function addConstructionBanner(){', 'function addConstructionBanner(){\n        return; // Construction banner retired.', 1)
+              if s2 != s:
+                  cfg.write_text(s2, encoding='utf-8')
       - name: Commit polish
         run: |
           git config user.name "github-actions[bot]"
