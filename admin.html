@@ -15,6 +15,49 @@
 @media(max-width:1050px){.side{width:215px}.main{margin-left:215px;padding:22px}.cards{grid-template-columns:repeat(2,1fr)}.quick-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:720px){body{padding-bottom:env(safe-area-inset-bottom)}.side{height:auto;inset:0 0 auto;width:100%;padding:11px 12px;display:flex;align-items:center;border-right:0;border-bottom:1px solid var(--line)}.side.open{height:100dvh;display:block}.brand{padding:0;margin-right:auto}.brand small{display:none}.mobile-toggle{display:block!important;min-height:40px;padding:7px 11px;margin-left:8px}.nav{display:none}.side.open .nav{display:block;margin-top:20px}.side.open .nav button{padding:14px}.main{margin-left:0;padding:78px 12px 96px}.top{align-items:flex-start;margin-bottom:16px}.top .status{font-size:10px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:14px}.card strong{font-size:23px}.card small{font-size:9px}.grid2{grid-template-columns:1fr;gap:0}.panel{padding:15px;margin-top:12px;border-radius:14px}.panel-head{align-items:flex-start}.quick-grid{grid-template-columns:repeat(2,1fr)}.toolbar{gap:8px}.toolbar .input{width:100%;min-width:0}.toolbar .btn{flex:1}.table{min-width:650px}.modal{padding:8px}.modalbox{margin:1vh auto;padding:16px;border-radius:14px}.form{grid-template-columns:1fr}.full{grid-column:auto}.actions{position:sticky;bottom:0;background:var(--panel);padding-top:10px}.phoenix-launch{right:15px;bottom:72px;width:54px;height:54px}.phoenix-panel{right:10px;bottom:72px;width:calc(100vw - 20px);height:min(640px,calc(100dvh - 90px));border-radius:16px}.phoenix-suggestions{padding-bottom:8px}.phoenix-input{padding-bottom:max(10px,env(safe-area-inset-bottom))}}
 </style>
+<style id="skyshotconner-mobile-polish">
+/* SKYSHOTCONNER MOBILE POLISH */
+@media (max-width:720px){
+  html,body{width:100%;overflow-x:hidden}
+  .side{box-shadow:0 10px 30px rgba(0,0,0,.25)}
+  .side.open{overflow-y:auto}
+  .main{padding-left:10px;padding-right:10px}
+  .top{gap:8px;flex-wrap:wrap}
+  .top>div:first-child{min-width:0;flex:1}
+  .top h1{font-size:1.55rem;line-height:1.1}
+  .status{padding-top:4px}
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .card{min-width:0;padding:12px}
+  .card strong{font-size:21px;line-height:1.1}
+  .card em{font-size:9px;line-height:1.2}
+  .panel{padding:13px;margin-top:10px;overflow:hidden}
+  .panel-head{gap:8px;flex-wrap:wrap}
+  .panel-head h2{font-size:15px}
+  .quick-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .quick{padding:12px 10px;min-width:0}
+  .quick strong{font-size:12px}
+  .quick .muted{font-size:10px;line-height:1.25}
+  .toolbar{display:grid;grid-template-columns:1fr;gap:7px}
+  .toolbar .btn{width:100%}
+  .table-wrap{margin:0 -13px;padding:0 13px}
+  .table{min-width:600px}
+  .modal{padding:0;align-items:flex-end}
+  .modalbox{width:100%;max-height:94dvh;margin:0;border-radius:18px 18px 0 0;padding:14px;overflow:auto}
+  .form{gap:10px}
+  .form input,.form textarea,.form select{font-size:16px}
+  .actions{position:sticky;bottom:0;margin:14px -14px -14px;padding:12px 14px;background:linear-gradient(180deg,rgba(14,21,29,.92),#0e151d);z-index:2}
+  .actions .btn{flex:1}
+  #phoenixTools{z-index:100;right:8px;top:62px;width:calc(100vw - 16px);max-height:calc(100dvh - 72px);border-radius:15px}
+  .phoenix-panel{z-index:101}
+}
+@media (max-width:390px){
+  .main{padding-left:8px;padding-right:8px}
+  .cards{gap:6px}
+  .card{padding:10px}
+  .card strong{font-size:19px}
+  .quick{padding:10px 8px}
+}
+</style>
 </head>
 <body>
 <div id="login" class="login"><div class="login-badge">Secure administrator access</div><h1>SkyShotConner Admin</h1><p class="muted">Private control centre. Sign in with the authorised administrator account.</p><input id="email" class="input" type="email" autocomplete="username" placeholder="Admin email"><br><br><input id="password" class="input" type="password" autocomplete="current-password" placeholder="Password"><br><br><button id="loginBtn" class="btn primary" style="width:100%">Sign In</button><p id="loginMsg" class="muted"></p></div>
