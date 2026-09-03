@@ -1,523 +1,178 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="SkyShotConner aviation photography prints and canvas collection.">
     <title>SkyShotConner | Prints</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap"
-        rel="stylesheet"
-    >
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="shop.css">
 </head>
-
 <body>
-
-    <header class="site-header" id="top">
-        <nav class="nav container">
-            <a href="index.html" class="brand">
-                <span class="brand-mark">✈</span>
-                <span>SKYSHOT<span>CONNER</span></span>
-            </a>
-
-            <button
-                class="nav-toggle"
-                id="navToggle"
-                aria-label="Open navigation"
-                aria-expanded="false"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-
-            <div class="nav-links" id="navLinks">
-                <a href="gallery.html">Gallery</a>
-                <a href="index.html#archive">Aircraft Archive</a>
-                <a href="index.html#about">About</a>
-                <a href="index.html#locations">Locations</a>
-                <a href="index.html#contact" class="nav-cta">Contact</a>
-            </div>
-        </nav>
-    </header>
-
-    <main class="shop-page">
-
-        <section class="shop-hero">
-            <div class="container">
-                <p class="eyebrow">SKYSHOTCONNER • PRINT COLLECTION</p>
-
-                <h1>
-                    Bring Aviation<br>
-                    <span>Home.</span>
-                </h1>
-
-                <p>
-                    Original aviation photographs captured through the SkyShotConner lens,
-                    available as premium stretched canvas artwork.
-                </p>
-
-                <div class="shop-status">
-                    <strong>🚧 Orders are temporarily unavailable.</strong>
-                    The online shop is still under construction. You can browse the collection
-                    and preview the available sizes below.
-                </div>
-            </div>
-        </section>
-
-        <section class="prints">
-            <div class="container">
-
-                <div class="shop-heading">
-                    <div>
-                        <p class="eyebrow">THE COLLECTION</p>
-                        <h2>Featured <span>Prints</span></h2>
-                    </div>
-
-                    <p>
-                        Select a photograph to view the full artwork details, canvas sizes,
-                        pricing and cart options.
-                    </p>
-                </div>
-
-                <div class="product-grid" id="productGrid">
-                    <p class="photo-note">Loading the print collection...</p>
-                </div>
-
-            </div>
-        </section>
-    </main>
-
-    <div
-        class="modal"
-        id="orderModal"
-        onclick="if (event.target === this) closeOrder()"
-    >
-        <div class="modal-box">
-            <button class="close" onclick="closeOrder()" aria-label="Close">×</button>
-
-            <img id="modalImage" class="modal-image" src="" alt="">
-
-            <p class="modal-eyebrow">SKYSHOTCONNER • ORIGINAL PHOTOGRAPHY</p>
-            <h2 id="modalTitle"></h2>
-
-            <p class="modal-sub">
-                Choose your canvas size and quantity. Each print is produced as premium
-                stretched canvas artwork.
-            </p>
-
-            <div class="detail-grid">
-                <div class="detail-box">
-                    <strong>Premium Canvas</strong>
-                    Stretched canvas wall artwork.
-                </div>
-
-                <div class="detail-box">
-                    <strong>Original Photography</strong>
-                    Captured by SkyShotConner.
-                </div>
-
-                <div class="detail-box">
-                    <strong>Delivery</strong>
-                    Quoted separately before an order is finalised.
-                </div>
-
-                <div class="detail-box">
-                    <strong>Current Status</strong>
-                    Orders temporarily unavailable.
-                </div>
-            </div>
-
-            <div class="field">
-                <label for="canvasSize">Canvas Size</label>
-                <select id="canvasSize" onchange="updateSummary()">
-                    <option value="A5">A5 — R349</option>
-                    <option value="A4">A4 — R449</option>
-                    <option value="A3">A3 — R549</option>
-                    <option value="A2">A2 — R749</option>
-                    <option value="A1">A1 — R1,099</option>
-                    <option value="A0">A0 — R1,799</option>
-                </select>
-            </div>
-
-            <div class="field">
-                <label for="quantity">Quantity</label>
-                <input id="quantity" type="number" min="1" step="1" value="1" oninput="updateSummary()">
-            </div>
-
-            <div class="summary">
-                <div class="sumrow">
-                    <span>Canvas</span>
-                    <span id="summarySize">A5</span>
-                </div>
-
-                <div class="sumrow">
-                    <span>Quantity</span>
-                    <span id="summaryQty">1</span>
-                </div>
-
-                <div class="sumrow total">
-                    <span>Total</span>
-                    <span id="summaryTotal">R349</span>
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button class="shop-btn primary" onclick="addToCart()">Add to Cart</button>
-                <button class="shop-btn" onclick="addAndCheckout()">Add &amp; View Cart</button>
-            </div>
+<header class="site-header" id="top">
+    <nav class="nav container">
+        <a href="index.html" class="brand"><span class="brand-mark">✈</span><span>SKYSHOT<span>CONNER</span></span></a>
+        <button class="nav-toggle" id="navToggle" aria-label="Open navigation" aria-expanded="false" type="button">
+            <span></span><span></span><span></span>
+        </button>
+        <div class="nav-links" id="navLinks">
+            <a href="gallery.html">Gallery</a>
+            <a href="index.html#archive">Aircraft Archive</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#locations">Locations</a>
+            <a href="index.html#contact" class="nav-cta">Contact</a>
+            <button class="cart-nav" id="cartButton" type="button" onclick="openCart()">🛒 Cart <span id="cartCount">0</span></button>
         </div>
-    </div>
+    </nav>
+</header>
 
-    <div
-        class="modal"
-        id="cartModal"
-        onclick="if (event.target === this) closeCart()"
-    >
-        <div class="modal-box">
-            <button class="close" onclick="closeCart()" aria-label="Close">×</button>
-
-            <p class="modal-eyebrow">SKYSHOTCONNER • CART</p>
-            <h2>Your Cart</h2>
-
-            <p class="modal-sub">
-                Review your selected canvas prints.
-            </p>
-
-            <div id="cartList" class="cart-list"></div>
-
-            <div id="cartSummary" class="summary" style="display: none;">
-                <div class="sumrow total">
-                    <span>Cart Total</span>
-                    <span id="cartTotal">R0</span>
-                </div>
-            </div>
-
-            <div class="cart-actions">
-                <button class="shop-btn" onclick="closeCart()">Continue Shopping</button>
-                <button class="shop-btn primary" onclick="requestOrder()">Checkout / Request</button>
-            </div>
+<main class="shop-page">
+    <section class="shop-hero">
+        <div class="container">
+            <p class="eyebrow">SKYSHOTCONNER • PRINT COLLECTION</p>
+            <h1>Bring Aviation<br><span>Home.</span></h1>
+            <p>Original aviation photographs captured through the SkyShotConner lens, available as premium stretched canvas artwork.</p>
+            <div class="shop-status"><strong>🛒 Online ordering is coming online.</strong> Browse the collection, add prints to your cart and continue to secure Payfast checkout.</div>
         </div>
-    </div>
+    </section>
 
-    <div class="toast" id="toast">
-        <span id="toastText"></span>
-    </div>
-
-    <footer>
-        <div class="container footer-inner">
-            <a href="index.html" class="brand">
-                <span class="brand-mark">✈</span>
-                <span>SKYSHOT<span>CONNER</span></span>
-            </a>
-
-            <p>Original aviation photography from South Africa.</p>
-
-            <div class="socials">
-                <a href="https://www.instagram.com/skyshotconner/" target="_blank" rel="noopener noreferrer">
-                    Instagram
-                </a>
-                <a href="https://www.jetphotos.com/photographer/454122" target="_blank" rel="noopener noreferrer">
-                    JetPhotos
-                </a>
+    <section class="prints">
+        <div class="container">
+            <div class="shop-heading">
+                <div><p class="eyebrow">THE COLLECTION</p><h2>Featured <span>Prints</span></h2></div>
+                <p>Select a photograph to choose your canvas size, quantity and checkout options.</p>
             </div>
+            <div class="product-grid" id="productGrid"><p class="photo-note">Loading the print collection...</p></div>
         </div>
-    </footer>
+    </section>
+</main>
 
-    <script>
-        const SUPABASE_URL = "https://mlvbfdyahgszuwtgxmes.supabase.co";
-        const SUPABASE_KEY = "sb_publishable_l4ZBZi1Fxy_AwYVD2KDxiA_FnYNvp2z";
+<div class="modal" id="orderModal" onclick="if(event.target===this)closeOrder()">
+    <div class="modal-box">
+        <button class="close" onclick="closeOrder()" aria-label="Close" type="button">×</button>
+        <img id="modalImage" class="modal-image" src="" alt="">
+        <p class="modal-eyebrow">SKYSHOTCONNER • ORIGINAL PHOTOGRAPHY</p>
+        <h2 id="modalTitle"></h2>
+        <p class="modal-sub">Choose your canvas size and quantity. Each print is produced as premium stretched canvas artwork.</p>
+        <div class="detail-grid">
+            <div class="detail-box"><strong>Premium Canvas</strong>Stretched canvas wall artwork.</div>
+            <div class="detail-box"><strong>Original Photography</strong>Captured by SkyShotConner.</div>
+            <div class="detail-box"><strong>Delivery</strong>Quoted separately before fulfilment.</div>
+            <div class="detail-box"><strong>Payment</strong>Secure checkout through Payfast.</div>
+        </div>
+        <div class="field"><label for="canvasSize">Canvas Size</label><select id="canvasSize" onchange="updateSummary()"><option value="A5">A5 — R349</option><option value="A4">A4 — R449</option><option value="A3">A3 — R549</option><option value="A2">A2 — R749</option><option value="A1">A1 — R1,099</option><option value="A0">A0 — R1,799</option></select></div>
+        <div class="field"><label for="quantity">Quantity</label><input id="quantity" type="number" min="1" step="1" value="1" oninput="updateSummary()"></div>
+        <div class="summary"><div class="sumrow"><span>Canvas</span><span id="summarySize">A5</span></div><div class="sumrow"><span>Quantity</span><span id="summaryQty">1</span></div><div class="sumrow total"><span>Total</span><span id="summaryTotal">R349</span></div></div>
+        <div class="modal-actions"><button class="shop-btn primary" onclick="addToCart()" type="button">Add to Cart</button><button class="shop-btn" onclick="addAndViewCart()" type="button">Add &amp; View Cart</button></div>
+    </div>
+</div>
 
-        const prices = {
-            A5: 349,
-            A4: 449,
-            A3: 549,
-            A2: 749,
-            A1: 1099,
-            A0: 1799
-        };
+<div class="modal" id="cartModal" onclick="if(event.target===this)closeCart()">
+    <div class="modal-box">
+        <button class="close" onclick="closeCart()" aria-label="Close" type="button">×</button>
+        <p class="modal-eyebrow">SKYSHOTCONNER • CART</p>
+        <h2>Your Cart</h2>
+        <p class="modal-sub">Review your selected canvas prints before checkout.</p>
+        <div id="cartList" class="cart-list"></div>
+        <div id="cartSummary" class="summary" style="display:none"><div class="sumrow total"><span>Cart Total</span><span id="cartTotal">R0</span></div></div>
+        <div class="cart-actions"><button class="shop-btn" onclick="closeCart()" type="button">Continue Shopping</button><button class="shop-btn primary" onclick="openCheckout()" type="button">Checkout with Payfast</button></div>
+    </div>
+</div>
 
-        let products = [];
-        let selectedProduct = null;
-        let cart = JSON.parse(localStorage.getItem("skyshotconner_shop_cart_v2") || "[]");
+<div class="modal" id="checkoutModal" onclick="if(event.target===this)closeCheckout()">
+    <div class="modal-box">
+        <button class="close" onclick="closeCheckout()" aria-label="Close" type="button">×</button>
+        <p class="modal-eyebrow">SECURE CHECKOUT</p>
+        <h2>Customer Details</h2>
+        <p class="modal-sub">These details are used to create your Payfast order and send your payment confirmation.</p>
+        <div class="field"><label for="firstName">First Name</label><input id="firstName" type="text" maxlength="100" autocomplete="given-name" required></div>
+        <div class="field"><label for="lastName">Last Name</label><input id="lastName" type="text" maxlength="100" autocomplete="family-name" required></div>
+        <div class="field"><label for="emailAddress">Email Address</label><input id="emailAddress" type="email" maxlength="100" autocomplete="email" required></div>
+        <div class="field"><label for="phoneNumber">Phone Number (optional)</label><input id="phoneNumber" type="tel" maxlength="30" autocomplete="tel"></div>
+        <div class="summary"><div class="sumrow total"><span>Payfast Total</span><span id="checkoutTotal">R0</span></div></div>
+        <button class="shop-btn primary" id="payfastButton" onclick="payWithPayfast()" type="button">Continue to Payfast</button>
+        <p id="checkoutMessage" class="photo-note" style="margin-top:12px"></p>
+    </div>
+</div>
 
-        const productGrid = document.getElementById("productGrid");
-        const orderModal = document.getElementById("orderModal");
-        const cartModal = document.getElementById("cartModal");
+<div class="toast" id="toast"><span id="toastText"></span></div>
 
-        function money(value) {
-            return "R" + Number(value).toLocaleString("en-ZA");
-        }
+<footer>
+    <div class="container footer-inner">
+        <a href="index.html" class="brand"><span class="brand-mark">✈</span><span>SKYSHOT<span>CONNER</span></span></a>
+        <p>Original aviation photography from South Africa.</p>
+        <div class="socials"><a href="https://www.instagram.com/skyshotconner/" target="_blank" rel="noopener noreferrer">Instagram</a><a href="https://www.jetphotos.com/photographer/454122" target="_blank" rel="noopener noreferrer">JetPhotos</a></div>
+    </div>
+</footer>
 
-        function escapeHtml(value) {
-            return String(value ?? "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/\"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
-
-        async function loadProducts() {
-            productGrid.innerHTML = '<p class="photo-note">Loading the print collection...</p>';
-
-            try {
-                if (!window.supabase) {
-                    await new Promise((resolve, reject) => {
-                        const script = document.createElement("script");
-                        script.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";
-                        script.onload = resolve;
-                        script.onerror = reject;
-                        document.head.appendChild(script);
-                    });
-                }
-
-                const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-                const { data, error } = await client
-                    .from("shop_products")
-                    .select("id,name,description,image_url,product_url,price,active,sort_order,created_at")
-                    .eq("active", true)
-                    .order("sort_order", { ascending: true })
-                    .order("created_at", { ascending: true });
-
-                if (error) throw error;
-
-                products = Array.isArray(data)
-                    ? data.map(product => ({
-                        id: product.id,
-                        title: product.name,
-                        description: product.description || "Original SkyShotConner aviation photograph.",
-                        image: product.image_url,
-                        productUrl: product.product_url,
-                        price: Number(product.price) || 349
-                    }))
-                    : [];
-
-                renderProducts();
-            } catch (error) {
-                console.error("Unable to load shop products:", error);
-                productGrid.innerHTML = '<p class="photo-note">Unable to load the print collection right now. Please try again shortly.</p>';
-            }
-        }
-
-        function renderProducts() {
-            if (!products.length) {
-                productGrid.innerHTML = '<div class="empty">No prints are currently available.</div>';
-                return;
-            }
-
-            productGrid.innerHTML = products.map((product, index) => `
-                <article
-                    class="product-card"
-                    tabindex="0"
-                    onclick="openOrder(${index})"
-                    onkeydown="cardKey(event, ${index})"
-                >
-                    <div class="product-photo">
-                        <img
-                            src="${escapeHtml(product.image)}"
-                            alt="${escapeHtml(product.title)}"
-                            loading="lazy"
-                        >
-                        <span class="product-tag">ORIGINAL PHOTOGRAPHY</span>
-                    </div>
-
-                    <div class="product-info">
-                        <div>
-                            <h3>${escapeHtml(product.title)}</h3>
-                            <span class="product-open">View details →</span>
-                        </div>
-
-                        <div>
-                            <div class="product-price-label">From</div>
-                            <div class="product-price">${money(product.price)}</div>
-                        </div>
-                    </div>
-                </article>
-            `).join("");
-        }
-
-        function cardKey(event, index) {
-            if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                openOrder(index);
-            }
-        }
-
-        function openOrder(index) {
-            selectedProduct = products[index];
-
-            document.getElementById("modalImage").src = selectedProduct.image;
-            document.getElementById("modalImage").alt = selectedProduct.title;
-            document.getElementById("modalTitle").textContent = selectedProduct.title;
-            document.getElementById("canvasSize").value = "A5";
-            document.getElementById("quantity").value = "1";
-
-            updateSummary();
-            orderModal.classList.add("open");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeOrder() {
-            orderModal.classList.remove("open");
-
-            if (!cartModal.classList.contains("open")) {
-                document.body.style.overflow = "";
-            }
-        }
-
-        function updateSummary() {
-            const size = document.getElementById("canvasSize").value;
-            let quantity = parseInt(document.getElementById("quantity").value, 10) || 1;
-
-            quantity = Math.max(1, quantity);
-
-            document.getElementById("quantity").value = quantity;
-            document.getElementById("summarySize").textContent = size;
-            document.getElementById("summaryQty").textContent = quantity;
-            document.getElementById("summaryTotal").textContent = money(prices[size] * quantity);
-        }
-
-        function addToCart() {
-            if (!selectedProduct) return;
-
-            const size = document.getElementById("canvasSize").value;
-            const quantity = Math.max(1, parseInt(document.getElementById("quantity").value, 10) || 1);
-            const existing = cart.find(item => item.productId === selectedProduct.id && item.size === size);
-
-            if (existing) {
-                existing.quantity += quantity;
-            } else {
-                cart.push({
-                    productId: selectedProduct.id,
-                    title: selectedProduct.title,
-                    image: selectedProduct.image,
-                    size,
-                    quantity,
-                    unitPrice: prices[size]
-                });
-            }
-
-            saveCart();
-            showToast("Added to cart.");
-        }
-
-        function addAndCheckout() {
-            addToCart();
-            closeOrder();
-            openCart();
-        }
-
-        function saveCart() {
-            localStorage.setItem("skyshotconner_shop_cart_v2", JSON.stringify(cart));
-        }
-
-        function openCart() {
-            renderCart();
-            cartModal.classList.add("open");
-            document.body.style.overflow = "hidden";
-        }
-
-        function closeCart() {
-            cartModal.classList.remove("open");
-            document.body.style.overflow = "";
-        }
-
-        function renderCart() {
-            const list = document.getElementById("cartList");
-            const summary = document.getElementById("cartSummary");
-
-            if (!cart.length) {
-                list.innerHTML = '<div class="empty">Your cart is empty.</div>';
-                summary.style.display = "none";
-                return;
-            }
-
-            list.innerHTML = cart.map((item, index) => `
-                <div class="cart-item">
-                    <div class="cart-top">
-                        <div>
-                            <h4>${escapeHtml(item.title)}</h4>
-                            <div class="cart-meta">
-                                ${escapeHtml(item.size)} • Qty ${item.quantity} • ${money(item.unitPrice * item.quantity)}
-                            </div>
-                        </div>
-                    </div>
-                    <button class="remove" onclick="removeFromCart(${index})">Remove</button>
-                </div>
-            `).join("");
-
-            const total = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
-            document.getElementById("cartTotal").textContent = money(total);
-            summary.style.display = "block";
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            saveCart();
-            renderCart();
-        }
-
-        function requestOrder() {
-            if (!cart.length) {
-                showToast("Your cart is empty.");
-                return;
-            }
-
-            const lines = cart.map(item =>
-                `${item.title} — ${item.size} — Qty ${item.quantity} — ${money(item.unitPrice * item.quantity)}`
-            );
-
-            const total = cart.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
-            const body = [
-                "Hi SkyShotConner,",
-                "",
-                "I would like to request the following canvas prints:",
-                "",
-                ...lines,
-                "",
-                `Estimated total: ${money(total)}`,
-                "",
-                "Please let me know about availability and delivery."
-            ].join("\n");
-
-            window.location.href = `mailto:conneraviation18@gmail.com?subject=${encodeURIComponent("SkyShotConner Canvas Print Request")}&body=${encodeURIComponent(body)}`;
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            document.getElementById("toastText").textContent = message;
-            toast.classList.add("show");
-
-            window.clearTimeout(window.shopToastTimer);
-            window.shopToastTimer = window.setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2200);
-        }
-
-        const navToggle = document.getElementById("navToggle");
-        const navLinks = document.getElementById("navLinks");
-
-        if (navToggle && navLinks) {
-            navToggle.addEventListener("click", () => {
-                const open = navLinks.classList.toggle("open");
-                navToggle.setAttribute("aria-expanded", String(open));
-            });
-        }
-
-        document.querySelectorAll('a[target="_blank"]').forEach(link => {
-            link.rel = "noopener noreferrer";
-        });
-
-        loadProducts();
-    </script>
-
+<script>
+const SUPABASE_URL = "https://mlvbfdyahgszuwtgxmes.supabase.co";
+const SUPABASE_KEY = "sb_publishable_l4ZBZi1Fxy_AwYVD2KDxiA_FnYNvp2z";
+const PAYFAST_FUNCTION = SUPABASE_URL + "/functions/v1/payfast-checkout";
+const prices = { A5:349, A4:449, A3:549, A2:749, A1:1099, A0:1799 };
+let products = [];
+let selectedProduct = null;
+let cart = JSON.parse(localStorage.getItem("skyshotconner_shop_cart_v2") || "[]");
+const productGrid = document.getElementById("productGrid");
+const orderModal = document.getElementById("orderModal");
+const cartModal = document.getElementById("cartModal");
+const checkoutModal = document.getElementById("checkoutModal");
+function money(value){return "R" + Number(value).toLocaleString("en-ZA");}
+function escapeHtml(value){return String(value ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\"/g,"&quot;").replace(/'/g,"&#039;");}
+function cartTotal(){return cart.reduce((sum,item)=>sum+(Number(item.unitPrice)||0)*(Number(item.quantity)||0),0);}
+function updateCartCount(){document.getElementById("cartCount").textContent=cart.reduce((sum,item)=>sum+Number(item.quantity||0),0);}
+function saveCart(){localStorage.setItem("skyshotconner_shop_cart_v2",JSON.stringify(cart));updateCartCount();}
+async function loadProducts(){
+    try{
+        if(!window.supabase){await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2";s.onload=resolve;s.onerror=reject;document.head.appendChild(s);});}
+        const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+        const {data,error}=await client.from("shop_products").select("id,name,description,image_url,product_url,price,active,sort_order,created_at").eq("active",true).order("sort_order",{ascending:true}).order("created_at",{ascending:true});
+        if(error)throw error;
+        products=(data||[]).map(p=>({id:p.id,title:p.name,description:p.description||"Original SkyShotConner aviation photograph.",image:p.image_url,productUrl:p.product_url,price:349}));
+        renderProducts();
+    }catch(error){console.error(error);productGrid.innerHTML='<p class="photo-note">Unable to load the print collection right now. Please try again shortly.</p>';}
+}
+function renderProducts(){
+    if(!products.length){productGrid.innerHTML='<div class="empty">No prints are currently available.</div>';return;}
+    productGrid.innerHTML=products.map((p,i)=>`<article class="product-card" tabindex="0" onclick="openOrder(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openOrder(${i})}"><div class="product-photo"><img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.title)}" loading="lazy"><span class="product-tag">ORIGINAL PHOTOGRAPHY</span></div><div class="product-info"><div><h3>${escapeHtml(p.title)}</h3><span class="product-open">View details →</span></div><div><div class="product-price-label">From</div><div class="product-price">${money(p.price)}</div></div></div></article>`).join("");
+}
+function openOrder(index){selectedProduct=products[index];document.getElementById("modalImage").src=selectedProduct.image;document.getElementById("modalImage").alt=selectedProduct.title;document.getElementById("modalTitle").textContent=selectedProduct.title;document.getElementById("canvasSize").value="A5";document.getElementById("quantity").value=1;updateSummary();orderModal.classList.add("open");document.body.style.overflow="hidden";}
+function closeOrder(){orderModal.classList.remove("open");if(!cartModal.classList.contains("open")&&!checkoutModal.classList.contains("open"))document.body.style.overflow="";}
+function updateSummary(){const size=document.getElementById("canvasSize").value;const qty=Math.max(1,parseInt(document.getElementById("quantity").value,10)||1);document.getElementById("quantity").value=qty;document.getElementById("summarySize").textContent=size;document.getElementById("summaryQty").textContent=qty;document.getElementById("summaryTotal").textContent=money(prices[size]*qty);}
+function addToCart(){if(!selectedProduct)return;const size=document.getElementById("canvasSize").value;const qty=Math.max(1,parseInt(document.getElementById("quantity").value,10)||1);const existing=cart.find(i=>i.productId===selectedProduct.id&&i.size===size);if(existing)existing.quantity+=qty;else cart.push({productId:selectedProduct.id,title:selectedProduct.title,image:selectedProduct.image,size,quantity:qty,unitPrice:prices[size]});saveCart();showToast("Added to cart.");}
+function addAndViewCart(){addToCart();closeOrder();openCart();}
+function openCart(){renderCart();cartModal.classList.add("open");document.body.style.overflow="hidden";}
+function closeCart(){cartModal.classList.remove("open");if(!checkoutModal.classList.contains("open"))document.body.style.overflow="";}
+function renderCart(){const list=document.getElementById("cartList"),summary=document.getElementById("cartSummary");if(!cart.length){list.innerHTML='<div class="empty">Your cart is empty.</div>';summary.style.display="none";return;}list.innerHTML=cart.map((item,i)=>`<div class="cart-item"><div class="cart-top"><div><h4>${escapeHtml(item.title)}</h4><div class="cart-meta">${escapeHtml(item.size)} • Qty ${item.quantity} • ${money(item.unitPrice*item.quantity)}</div></div></div><button class="remove" onclick="removeFromCart(${i})" type="button">Remove</button></div>`).join("");document.getElementById("cartTotal").textContent=money(cartTotal());summary.style.display="block";}
+function removeFromCart(index){cart.splice(index,1);saveCart();renderCart();}
+function openCheckout(){if(!cart.length){showToast("Your cart is empty.");return;}document.getElementById("checkoutTotal").textContent=money(cartTotal());document.getElementById("checkoutMessage").textContent="";cartModal.classList.remove("open");checkoutModal.classList.add("open");document.body.style.overflow="hidden";}
+function closeCheckout(){checkoutModal.classList.remove("open");document.body.style.overflow="";}
+async function payWithPayfast(){
+    if(!cart.length){showToast("Your cart is empty.");return;}
+    const firstName=document.getElementById("firstName").value.trim();
+    const lastName=document.getElementById("lastName").value.trim();
+    const email=document.getElementById("emailAddress").value.trim();
+    const phone=document.getElementById("phoneNumber").value.trim();
+    const message=document.getElementById("checkoutMessage");
+    const button=document.getElementById("payfastButton");
+    if(!firstName||!lastName||!email){message.textContent="Please complete your first name, last name and email address.";return;}
+    button.disabled=true;button.textContent="Preparing secure checkout…";message.textContent="";
+    try{
+        const response=await fetch(PAYFAST_FUNCTION,{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY},body:JSON.stringify({customer:{first_name:firstName,last_name:lastName,email,phone},items:cart.map(item=>({product_id:item.productId,size:item.size,quantity:item.quantity}))})});
+        const result=await response.json();
+        if(!response.ok)throw new Error(result.error||result.message||"Unable to start Payfast checkout.");
+        const form=document.createElement("form");form.method="POST";form.action=result.action;form.style.display="none";
+        Object.entries(result.fields||{}).forEach(([name,value])=>{const input=document.createElement("input");input.type="hidden";input.name=name;input.value=value;form.appendChild(input);});
+        document.body.appendChild(form);localStorage.removeItem("skyshotconner_shop_cart_v2");cart=[];updateCartCount();form.submit();
+    }catch(error){console.error(error);message.textContent=error.message||"Checkout could not be started. Please try again.";button.disabled=false;button.textContent="Continue to Payfast";}
+}
+function showToast(message){const toast=document.getElementById("toast");document.getElementById("toastText").textContent=message;toast.classList.add("show");clearTimeout(window.shopToastTimer);window.shopToastTimer=setTimeout(()=>toast.classList.remove("show"),2200);}
+const navToggle=document.getElementById("navToggle"),navLinks=document.getElementById("navLinks");
+if(navToggle&&navLinks)navToggle.addEventListener("click",()=>{const open=navLinks.classList.toggle("open");navToggle.setAttribute("aria-expanded",String(open));});
+updateCartCount();loadProducts();
+</script>
 </body>
 </html>
