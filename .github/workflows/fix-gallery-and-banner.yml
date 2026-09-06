@@ -1,0 +1,89 @@
+name: Fix gallery freeze and remove construction banner
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch gallery and shared banner code
+        shell: python
+        run: |
+          from pathlib import Path
+
+          config = Path('supabase-config.js')
+          s = config.read_text(encoding='utf-8')
+
+          # The construction banner is injected by the shared config, not index.html.
+          # Remove the injector and its call so no page can recreate the banner.
+          import re
+          s = re.sub(r'\n\s*function addConstructionBanner\(\) \{.*?\n\s*\}\n\n\s*function addPreviousOperatorField', '\n    function addPreviousOperatorField', s, flags=re.S)
+          s = s.replace('function initialise(){addConstructionBanner();addGalleryRegistrationTotal();', 'function initialise(){addGalleryRegistrationTotal();')
+
+          # CRITICAL FIX: the previous observer watched childList/subtree changes inside
+          # the detail panel. addPreviousOperatorField() changes textContent, which fired
+          # the observer again and created an endless MutationObserver loop that froze the page.
+          old = 'observer.observe(detail,{attributes:true,childList:true,subtree:true,attributeFilter:["class"]})'
+          new = 'observer.observe(detail,{attributes:true,attributeFilter:["class"]})'
+          if old not in s:
+              raise SystemExit('Expected detail MutationObserver was not found')
+          s = s.replace(old, new, 1)
+          config.write_text(s, encoding='utf-8')
+
+          # Remove any accidental static banner markup from index.html as well.
+          index = Path('index.html')
+          h = index.read_text(encoding='utf-8')
+          h = re.sub(r'\s*<[^>]*id=["\']siteConstructionBanner["\'][^>]*>.*?</[^>]+>', '', h, flags=re.S|re.I)
+          h = h.replace('SKYSHOTCONNER WEBSITE UNDER CONSTRUCTION', '')
+          index.write_text(h, encoding='utf-8')
+
+          # Add a small defensive guard to gallery clicks. It prevents double activation
+          # while the detail view is being opened, without replacing the existing UI.
+          gallery = Path('gallery.html')
+          g = gallery.read_text(encoding='utf-8')
+          marker = '</body>'
+          guard = r'''
+<script>
+/* Gallery click safety: never allow a second activation while opening a detail card. */
+(function () {
+    let opening = false;
+    const originalOpenAircraft = window.openAircraft;
+    if (typeof originalOpenAircraft !== 'function') return;
+
+    window.openAircraft = async function (id) {
+        if (opening) return;
+        opening = true;
+        try {
+            return await originalOpenAircraft(id);
+        } catch (error) {
+            console.error('SkyShotConner: aircraft detail failed to open:', error);
+        } finally {
+            opening = false;
+        }
+    };
+})();
+</script>
+'''
+          if 'Gallery click safety: never allow a second activation' not in g:
+              g = g.replace(marker, guard + '\n' + marker)
+          gallery.write_text(g, encoding='utf-8')
+
+      - name: Commit fixes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add supabase-config.js index.html gallery.html
+          if git diff --cached --quiet; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git commit -m "Fix gallery card freeze and remove construction banner"
+          git push
