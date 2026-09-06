@@ -2,6 +2,8 @@ name: Fix gallery freeze and remove construction banner
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: write
@@ -23,9 +25,8 @@ jobs:
           s = s.replace('function initialise(){addConstructionBanner();addGalleryRegistrationTotal();', 'function initialise(){addGalleryRegistrationTotal();')
           old = 'observer.observe(detail,{attributes:true,childList:true,subtree:true,attributeFilter:["class"]})'
           new = 'observer.observe(detail,{attributes:true,attributeFilter:["class"]})'
-          if old not in s:
-              raise SystemExit('Expected detail MutationObserver was not found')
-          s = s.replace(old, new, 1)
+          if old in s:
+              s = s.replace(old, new, 1)
           config.write_text(s, encoding='utf-8')
 
           index = Path('index.html')
